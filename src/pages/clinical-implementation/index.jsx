@@ -23,7 +23,7 @@ const ClinicalImplementation = () => {
         <HeroSection />
         {/* <ImplementationWizard /> */}
         <GeneIntelligence />
-        <ROICalculator />
+        {/* <ROICalculator /> */}
         {/* <APIDocumentation />
         <PartnerShowcase />
         <ResourceCenter />

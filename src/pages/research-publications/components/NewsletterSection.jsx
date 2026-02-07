@@ -8,7 +8,7 @@ const NewsletterSection = () => {
   const [email, setEmail] = useState('');
   const [preferences, setPreferences] = useState({
     newPublications: true,
-    researchUpdates: true,
+    projectUpdates: true,
     collaborationOpportunities: false,
     monthlyDigest: false
   });
@@ -41,7 +41,7 @@ const NewsletterSection = () => {
       setEmail('');
       setPreferences({
         newPublications: true,
-        researchUpdates: true,
+        projectUpdates: true,
         collaborationOpportunities: false,
         monthlyDigest: false
       });
@@ -56,11 +56,11 @@ const NewsletterSection = () => {
             <Icon name="Mail" size={24} className="text-accent" />
           </div>
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-            Stay Updated with Latest Research
+            Stay Updated with Latest News
           </h2>
-          <p className="text-sm md:text-base text-muted-foreground">
-            Subscribe to receive notifications about new publications, research updates, and collaboration opportunities
-          </p>
+          {/* <p className="text-sm md:text-base text-muted-foreground">
+            Subscribe to receive notifications about upcoming projects & collaboration Opportunities
+          </p> */}
         </div>
 
         {subscribed ? (
@@ -95,10 +95,10 @@ const NewsletterSection = () => {
                   onChange={(e) => setPreferences(prev => ({ ...prev, newPublications: e?.target?.checked }))}
                 />
                 <Checkbox
-                  label="Research Updates"
-                  description="Updates on ongoing studies and findings"
-                  checked={preferences?.researchUpdates}
-                  onChange={(e) => setPreferences(prev => ({ ...prev, researchUpdates: e?.target?.checked }))}
+                  label="Project Updates"
+                  description="Updates on ongoing projects"
+                  checked={preferences?.projectUpdates}
+                  onChange={(e) => setPreferences(prev => ({ ...prev, projectUpdates: e?.target?.checked }))}
                 />
                 <Checkbox
                   label="Collaboration Opportunities"

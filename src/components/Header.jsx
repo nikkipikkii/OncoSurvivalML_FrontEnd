@@ -9,9 +9,11 @@ const Header = () => {
 
   const navigationItems = [
     { path: '/interactive-landing-hub', label: 'Home' },
-    { path: '/development-performance', label: 'Model Performance' },
-    { path: '/clinical-implementation', label: 'Clinical Use' },
-    { path: '/research-publications', label: 'Patient Risk Profile Inference' },
+     { path: '/research-publications', label: 'Patient Risk Profile Inference' },
+
+    { path: '/clinical-implementation', label: 'Gene Narrative' },
+        { path: '/development-performance', label: 'Model Performance' },
+   
   ];
 
   const isActivePath = (path) => location?.pathname === path;
