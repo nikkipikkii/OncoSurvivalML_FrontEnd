@@ -164,12 +164,21 @@ const HeroSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // --- FETCH REAL DATA ON LOAD ---
+  const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/hero-charts')
+    // Pointing to /hero-graphs route on the Render backend
+    fetch(`${API_URL}/hero-graphs`)
       .then(res => res.json())
       .then(data => setChartData(data))
       .catch(err => console.error("Failed to load hero charts:", err));
-  }, []);
+  }, [API_URL]);
+  // useEffect(() => {
+  //   fetch('http://127.0.0.1:8000/hero-charts')
+  //     .then(res => res.json())
+  //     .then(data => setChartData(data))
+  //     .catch(err => console.error("Failed to load hero charts:", err));
+  // }, []);
 
   // --- VIZ CONFIGURATION ---
   const visualizations = [
@@ -215,6 +224,7 @@ const HeroSection = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, [isModalOpen]); // Depend on isModalOpen
+    // }, [isModalOpen, visualizations.length]);
 
   const currentViz = visualizations?.[activeVisualization];
   const currentData = chartData ? chartData[currentViz.dataKey] : [];
