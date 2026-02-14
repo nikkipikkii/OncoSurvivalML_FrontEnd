@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Icon from '../../../components/AppIcon';
-import dnaImage from '../components/dna_nobg.png';
+import dnaImage from './dna_nobg.png';
 
 const Hero = () => {
   const [openItem, setOpenItem] = useState(null);

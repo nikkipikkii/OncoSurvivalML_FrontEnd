@@ -9,11 +9,10 @@ const Header = () => {
 
   const navigationItems = [
     { path: '/interactive-landing-hub', label: 'Home' },
-     { path: '/research-publications', label: 'Patient Risk Profile Inference' },
-
+    { path: '/riskprofile', label: 'Patient Risk Profile Inference' },
     { path: '/clinical-implementation', label: 'Gene Narrative' },
-        { path: '/development-performance', label: 'Model Performance' },
-   
+    { path: '/development-performance', label: 'Model Performance' },
+    { path: '/analytics', label: 'Analytics' },
   ];
 
   const isActivePath = (path) => location?.pathname === path;
@@ -52,22 +51,29 @@ const Header = () => {
           </div>
 
           <div className="header-cta-container">
-            <Button
-              variant="outline"
-              size="sm"
-              iconName="Database"
-              iconPosition="left"
-            >
-              Gene Database
-            </Button>
-            <Button
-              variant="default"
-              size="sm"
-              iconName="FlaskConical"
-              iconPosition="left"
-            >
-              Test Model
-            </Button>
+            {/* Link to Gene Database */}
+            <Link to="/clinical-implementation">
+              <Button
+                variant="outline"
+                size="sm"
+                iconName="Database"
+                iconPosition="left"
+              >
+                Gene Database
+              </Button>
+            </Link>
+
+            {/* Link to Test Model */}
+            <Link to="/riskprofile">
+              <Button
+                variant="default"
+                size="sm"
+                iconName="FlaskConical"
+                iconPosition="left"
+              >
+                Test Model
+              </Button>
+            </Link>
           </div>
 
           <button
@@ -100,24 +106,26 @@ const Header = () => {
                 </Link>
               ))}
               <div className="header-mobile-cta">
-                <Button
-                  variant="outline"
-                  fullWidth
-                  iconName="Database"
-                  iconPosition="left"
-                  onClick={closeMobileMenu}
-                >
-                  Gene Database
-                </Button>
-                <Button
-                  variant="default"
-                  fullWidth
-                  iconName="FlaskConical"
-                  iconPosition="left"
-                  onClick={closeMobileMenu}
-                >
-                  Test Model
-                </Button>
+                <Link to="/clinical-implementation" onClick={closeMobileMenu}>
+                  <Button
+                    variant="outline"
+                    fullWidth
+                    iconName="Database"
+                    iconPosition="left"
+                  >
+                    Gene Database
+                  </Button>
+                </Link>
+                <Link to="/riskprofile" onClick={closeMobileMenu}>
+                  <Button
+                    variant="default"
+                    fullWidth
+                    iconName="FlaskConical"
+                    iconPosition="left"
+                  >
+                    Test Model
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

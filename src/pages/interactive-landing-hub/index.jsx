@@ -3,13 +3,14 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import HeroSection from './components/HeroSection';
 import TechnicalDeepDive from './components/TechnicalDeepDive';
-// import PerformanceMetrics from './components/PerformanceMetrics';
-import LandingPage from './components/LandingPage';
 import Cc from './components/Cc';
-import ProjectImpact from './components/ProjectImpact';
-import ModelDemo from './components/ModelDemo';
-import CaseStudies from './components/CaseStudies';
-import CTASection from './components/CTASection';
+// import PerformanceMetrics from './components/PerformanceMetrics';
+// import LandingPage from './components/LandingPage';
+
+// import ProjectImpact from './components/ProjectImpact';
+// import ModelDemo from './components/ModelDemo';
+// import CaseStudies from './components/CaseStudies';
+// import CTASection from './components/CTASection';
 
 const InteractiveLandingHub = () => {
   useEffect(() => {
@@ -28,7 +29,7 @@ const InteractiveLandingHub = () => {
         {/* <CaseStudies /> */}
         {/* <CTASection /> */}
         <TechnicalDeepDive />
-        <ProjectImpact />
+        {/* <ProjectImpact /> */}
       </main>
       <Footer />
     </div>

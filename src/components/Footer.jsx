@@ -8,123 +8,103 @@ const Footer = () => {
   const navigationLinks = [
     { path: '/interactive-landing-hub', label: 'Home' },
     { path: '/development-performance', label: 'Model Performance' },
-    { path: '/clinical-implementation', label: 'Clinical Implementation' },
-    { path: '/research-publications', label: 'Research Publications' },
-  ];
-
-  const resourceLinks = [
-    { path: '/documentation', label: 'Documentation' },
-    { path: '/methodology', label: 'Methodology' },
-    { path: '/gene-database', label: 'Gene Database' },
-    { path: '/api-access', label: 'API Access' },
-  ];
-
-  const companyLinks = [
-    { path: '/about', label: 'About Us' },
-    { path: '/team', label: 'Research Team' },
-    { path: '/partnerships', label: 'Partnerships' },
-    { path: '/careers', label: 'Careers' },
-  ];
-
-  const legalLinks = [
-    { path: '/privacy', label: 'Privacy Policy' },
-    { path: '/terms', label: 'Terms of Service' },
-    { path: '/data-security', label: 'Data Security' },
+    { path: '/clinical-implementation', label: 'Gene Narrative' },
+    { path: '/riskprofile', label: 'Patient Risk Profile Inference' },
+    { path: '/analytics', label: 'Analytics' },
   ];
 
   const socialLinks = [
-    { name: 'Github', icon: 'Github', url: 'https://github.com' },
-    { name: 'Twitter', icon: 'Twitter', url: 'https://twitter.com' },
+    { name: 'Github', icon: 'Github', url: 'https://github.com/nikkipikkii' },
     { name: 'Linkedin', icon: 'Linkedin', url: 'https://linkedin.com' },
-    { name: 'Mail', icon: 'Mail', url: 'mailto:research@oncorisk.ai' },
+    { name: 'Mail', icon: 'Mail', url: 'mailto:nandbahukhandi8@gmail.com' },
   ];
 
   return (
-    <footer className="footer-container">
-      <div className="footer-content">
-        <div className="footer-grid">
-          <div className="footer-brand">
-            <Link to="/interactive-landing-hub" className="footer-logo-link">
+    <footer className="footer-container border-t border-border/40 bg-background">
+      <div className="footer-content py-12 md:py-16">
+        <div className="footer-grid grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+          
+          {/* Brand & Description */}
+          <div className="footer-brand space-y-4">
+            <Link to="/interactive-landing-hub" className="footer-logo-link flex items-center gap-2">
               <div className="footer-logo-icon">
                 <Icon name="Dna" size={24} color="var(--color-accent)" />
               </div>
-              <span className="footer-logo-text">OncoRisk</span>
+              <span className="footer-logo-text font-bold text-xl tracking-tight">OncoRisk</span>
             </Link>
-            <p className="footer-description">
-              Advanced AI-powered genomic analysis platform for precision oncology research. 
-              Transforming complex genetic data into actionable clinical insights.
+            <p className="footer-description text-sm text-muted-foreground leading-relaxed">
+              An individual biotechnology project exploring the intersection of genomic signatures 
+              and survival analysis. Developed to bridge the gap between complex genetic data 
+              and predictive modeling.
             </p>
-            <div className="footer-social">
+            <div className="footer-social flex items-center gap-4">
               {socialLinks?.map((social) => (
                 <a
                   key={social?.name}
                   href={social?.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="footer-social-link"
+                  className="text-muted-foreground hover:text-accent transition-colors"
                   aria-label={social?.name}
                 >
-                  <Icon name={social?.icon} size={18} />
+                  <Icon name={social?.icon} size={20} />
                 </a>
               ))}
             </div>
-            <div className="footer-trust-badges">
-              <div className="footer-trust-badge">
-                <Icon name="Shield" size={16} color="var(--color-success)" />
-                <span>HIPAA Compliant</span>
-              </div>
-              <div className="footer-trust-badge">
-                <Icon name="Award" size={16} color="var(--color-success)" />
-                <span>Peer Reviewed</span>
-              </div>
+          </div>
+
+          {/* Researcher Section */}
+          <div className="footer-section">
+            <h3 className="footer-heading text-sm font-bold uppercase tracking-widest text-foreground mb-6">Researcher</h3>
+            <div className="footer-about-me p-4 rounded-xl bg-muted/30 border border-border/50">
+              <p className="text-sm font-semibold text-foreground mb-1">Nandini Bahukhandi</p>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Biotechnology Student <br />
+                Aspiring Bioinformatics Researcher
+              </p>
+            </div>
+            <div className="mt-6 flex items-center gap-2 text-[10px] text-accent font-medium uppercase tracking-tighter">
+                <Icon name="FlaskConical" size={14} />
+                <span>Academic Research Project</span>
             </div>
           </div>
 
+          {/* Navigation Section */}
           <div className="footer-section">
-            <h3 className="footer-heading">Platform</h3>
-            <nav className="footer-links">
+            <h3 className="footer-heading text-sm font-bold uppercase tracking-widest text-foreground mb-6">Sitemap</h3>
+            <nav className="footer-links flex flex-col gap-3">
               {navigationLinks?.map((link) => (
-                <Link key={link?.path} to={link?.path} className="footer-link">
+                <Link 
+                  key={link?.path} 
+                  to={link?.path} 
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors w-fit"
+                >
                   {link?.label}
                 </Link>
               ))}
             </nav>
           </div>
 
-          <div className="footer-section">
-            <h3 className="footer-heading">Resources</h3>
-            <nav className="footer-links">
-              {resourceLinks?.map((link) => (
-                <Link key={link?.path} to={link?.path} className="footer-link">
-                  {link?.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          <div className="footer-section">
-            <h3 className="footer-heading">Company</h3>
-            <nav className="footer-links">
-              {companyLinks?.map((link) => (
-                <Link key={link?.path} to={link?.path} className="footer-link">
-                  {link?.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
         </div>
       </div>
-      <div className="footer-bottom">
-        <div className="footer-bottom-content">
-          <p className="footer-copyright">
-            © {currentYear} OncoRisk. All rights reserved. Trusted by 200+ research institutions worldwide.
-          </p>
-          <nav className="footer-bottom-links">
-            {legalLinks?.map((link) => (
-              <Link key={link?.path} to={link?.path} className="footer-bottom-link">
-                {link?.label}
-              </Link>
-            ))}
+
+      {/* Bottom Bar & Disclaimer */}
+      <div className="footer-bottom border-t border-border/20 py-8">
+        <div className="footer-bottom-content container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="space-y-2 text-center md:text-left">
+            <p className="footer-copyright text-xs text-muted-foreground">
+              © {currentYear} OncoRisk by Nandini.
+            </p>
+            <p className="text-[11px] text-muted-foreground/60 max-w-md italic">
+              <strong>Disclaimer:</strong> This project is created for <strong>educational purposes only</strong>. 
+              The predictions and analysis provided are part of a student research project and should not 
+              be used for medical diagnosis or clinical decision-making.
+            </p>
+          </div>
+          
+          <nav className="footer-bottom-links flex items-center gap-6">
+              <Link to="/privacy" className="text-xs text-muted-foreground hover:text-foreground">Privacy</Link>
+              <Link to="/terms" className="text-xs text-muted-foreground hover:text-foreground">Terms</Link>
           </nav>
         </div>
       </div>

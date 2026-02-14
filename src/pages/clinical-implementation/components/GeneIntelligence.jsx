@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -7,35 +7,50 @@ import {
 
 const PAGE_SIZE = 10;
 
-/* ------------------------------------------------------------------ */
-/* DATA                                                               */
-/* ------------------------------------------------------------------ */
-const geneTable = [
-  { rank: 1, gene: "KLRB1", coef: -0.6034, abs: 0.6034 },
-  { rank: 2, gene: "CCL19", coef: 0.4657, abs: 0.4657 },
-  { rank: 3, gene: "CLEC3A", coef: 0.4008, abs: 0.4008 },
-  { rank: 4, gene: "LINC01235", coef: 0.3669, abs: 0.3669 },
-  { rank: 5, gene: "QPRT", coef: 0.3607, abs: 0.3607 },
-  { rank: 6, gene: "TNFRSF14", coef: 0.2995, abs: 0.2995 },
-  { rank: 7, gene: "SERPINA1", coef: -0.2769, abs: 0.2769 },
-  { rank: 8, gene: "SEMA3B", coef: -0.2584, abs: 0.2584 },
-  { rank: 9, gene: "EDA2R", coef: 0.2573, abs: 0.2573 },
-  { rank: 10, gene: "UTP23", coef: 0.234, abs: 0.234 }
-];
-
 /* ================================================================== */
 /* MAIN                                                               */
 /* ================================================================== */
 export default function GeneIntelligence() {
-  const [selectedGene, setSelectedGene] = useState(geneTable[0].gene);
+  // State for dynamic data
+  const [geneTable, setGeneTable] = useState([]);
+  const [selectedGene, setSelectedGene] = useState(null);
   const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(true);
 
+  // --- FETCH DATA ON MOUNT ---
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/gene-intelligence")
+      .then((res) => res.json())
+      .then((data) => {
+        setGeneTable(data);
+        // Set default selected gene to the top ranked one
+        if (data.length > 0) {
+          setSelectedGene(data[0].gene);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to load gene intelligence:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  // Derived state
   const selectedRow = geneTable.find(g => g.gene === selectedGene);
 
   const pagedGenes = useMemo(() => {
     const start = page * PAGE_SIZE;
     return geneTable.slice(start, start + PAGE_SIZE);
-  }, [page]);
+  }, [page, geneTable]); // Added geneTable dependency
+
+  // Loading state (preserves layout structure while waiting)
+  if (loading) {
+    return (
+      <section className="min-h-screen px-6 py-20 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 flex items-center justify-center">
+        <div className="text-slate-400 animate-pulse">Loading Biological Intelligence...</div>
+      </section>
+    );
+  }
 
   return (
     <section className="min-h-screen px-6 py-20 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100">
@@ -58,7 +73,7 @@ export default function GeneIntelligence() {
           Gene Contribution Summary
         </h3>
 
-        <p className="mb-4">
+        <p className="mb-4 text-center max-w-3xl mx-auto">
           This gene contributes to the survival model through its learned Cox
           proportional hazards coefficient. The <strong>sign</strong> of the
           coefficient indicates the direction of association with risk, while the
@@ -88,7 +103,7 @@ export default function GeneIntelligence() {
               <div
                 key={row.gene}
                 onClick={() => setSelectedGene(row.gene)}
-                className={`grid grid-cols-4 py-2 cursor-pointer text-center
+                className={`grid grid-cols-4 py-2 cursor-pointer text-center transition-colors
                   ${
                     row.gene === selectedGene
                       ? "bg-slate-800 text-white"
@@ -97,7 +112,9 @@ export default function GeneIntelligence() {
               >
                 <div className="text-indigo-400">#{row.rank}</div>
                 <div>{row.gene}</div>
-                <div className="text-blue-400">{row.coef}</div>
+                <div className={row.coef < 0 ? "text-emerald-400" : "text-rose-400"}>
+                  {row.coef}
+                </div>
                 <div>{row.abs}</div>
               </div>
             ))}
@@ -107,7 +124,7 @@ export default function GeneIntelligence() {
         </div>
 
         {/* ============ RIGHT : MODEL CONTRIBUTION ============ */}
-        <div className="xl:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div className="xl:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5 h-fit sticky top-10">
           <h3 className="font-medium mb-4 text-pink-400">
             Model Contribution (CoxPH)
           </h3>
@@ -117,9 +134,9 @@ export default function GeneIntelligence() {
           </label>
 
           <select
-            value={selectedGene}
+            value={selectedGene || ""}
             onChange={(e) => setSelectedGene(e.target.value)}
-            className="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-sm text-white mb-5"
+            className="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-sm text-white mb-5 outline-none focus:border-pink-500/50"
           >
             {geneTable.map(g => (
               <option key={g.gene} value={g.gene}>
@@ -130,12 +147,12 @@ export default function GeneIntelligence() {
 
           {/* ===== BIOLOGICAL NARRATIVE ===== */}
           <div className="text-xs text-slate-300 mb-4 leading-relaxed">
-            <span className="font-semibold text-slate-400">
+            <span className="font-semibold text-slate-400 block mb-1">
               Biological Narrative:
-            </span>{" "}
-            {selectedRow?.coef < 0
+            </span>
+            {selectedRow?.narrative || (selectedRow?.coef < 0
               ? "This gene demonstrates a protective association with modeled hazard in the Cox proportional hazards model."
-              : "This gene demonstrates an increased hazard association in the Cox proportional hazards model."
+              : "This gene demonstrates an increased hazard association in the Cox proportional hazards model.")
             }
           </div>
 
@@ -145,7 +162,7 @@ export default function GeneIntelligence() {
 
             <div className="flex justify-between">
               <span className="text-slate-400">Coefficient (log-hazard)</span>
-              <span className="text-blue-400 font-medium">
+              <span className={`font-medium ${selectedRow?.coef < 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                 {selectedRow?.coef}
               </span>
             </div>
@@ -174,15 +191,29 @@ export default function GeneIntelligence() {
 /* SMALL COMPONENTS                                                    */
 /* ================================================================== */
 function Pagination({ page, setPage, total }) {
+  const start = page * PAGE_SIZE + 1;
+  const end = Math.min((page + 1) * PAGE_SIZE, total);
+  
   return (
     <div className="flex justify-between items-center mt-4 text-xs text-slate-500">
       <span>
-        Showing {page * PAGE_SIZE + 1}–
-        {Math.min((page + 1) * PAGE_SIZE, total)} of {total}
+        Showing {total > 0 ? start : 0}–{end} of {total}
       </span>
       <div className="flex gap-2">
-        <button onClick={() => setPage(p => Math.max(0, p - 1))}>◀</button>
-        <button onClick={() => setPage(p => p + 1)}>▶</button>
+        <button 
+          onClick={() => setPage(p => Math.max(0, p - 1))}
+          disabled={page === 0}
+          className="hover:text-white disabled:opacity-30 disabled:hover:text-slate-500"
+        >
+          <ChevronLeft size={16} />
+        </button>
+        <button 
+          onClick={() => setPage(p => (end < total ? p + 1 : p))}
+          disabled={end >= total}
+          className="hover:text-white disabled:opacity-30 disabled:hover:text-slate-500"
+        >
+          <ChevronRight size={16} />
+        </button>
       </div>
     </div>
   );
