@@ -540,6 +540,10 @@ const ModelDemo = () => {
     age: '',
     nodeStatus: 'Negative',
     genes: {} 
+//choose which is better
+    // genes: Array.from({ length: 30 }).reduce((acc, _, i) => ({ ...acc, [`Gene ${i + 1}`]: 0.0 }), {})
+
+
   });
 
   // Dynamic API URL from environment or fallback to localhost
@@ -573,6 +577,8 @@ const ModelDemo = () => {
     if (newMode === 'manual') {
         const resetGenes = geneList.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), {});
         setFormData({ age: '', nodeStatus: 'Negative', genes: resetGenes });
+
+          // if (newMode === 'manual') setFormData(prev => ({ ...prev, age: '', nodeStatus: 'Negative' }));
     }
   };
 
@@ -601,7 +607,7 @@ const ModelDemo = () => {
     setSelectedPid('');
     setResults(null);
     setIsGenesOpen(false);
-    const resetGenes = geneList.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), {});
+    const resetGenes = geneList.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), 
     setFormData({
       age: '',
       nodeStatus: 'Negative',
@@ -628,7 +634,7 @@ const ModelDemo = () => {
       if (!response.ok) throw new Error('Inference request failed');
       
       const data = await response.json();
-      
+      //old code has setResults(data);
       /**
        * Safeguard: If the backend sends 'graph_data' instead of 'curveData',
        * we map it here to ensure the chart renders correctly.
@@ -641,8 +647,10 @@ const ModelDemo = () => {
               rsf: data.graph_data.rsf[i]
           }));
       }
-
+      //do we need seprate processing of data??
       setResults(processedData);
+      //where is set results it should have summary:
+      //ishighrisk
     } catch (error) {
       console.error("Inference Error:", error);
       alert("Backend Connection Error: Ensure main.py is running on port 8000");
@@ -650,6 +658,34 @@ const ModelDemo = () => {
       setIsLoading(false);
     }
   };
+// const runInference = () => {
+  //   setIsLoading(true);
+  //   setTimeout(() => {
+  //     const isHighRisk = formData.nodeStatus === 'Positive' || formData.age > 65;
+  //     const mockCurveData = Array.from({ length: 20 }, (_, i) => ({
+  //       time: i * 100,
+  //       cox: Math.exp(-(isHighRisk ? 0.0008 : 0.0003) * (i * 100)),
+  //       rsf: Math.exp(-(isHighRisk ? 0.0007 : 0.00025) * (i * 100)),
+  //     }));
+
+  //     setResults({
+  //       summary: {
+  //         coxHazard: isHighRisk ? 2.45 : 0.85,
+  //         rsfRisk: isHighRisk ? 12.5 : 4.2,
+  //         agreement: isHighRisk ? 0.88 : 0.92,
+  //         agreementLabel: "High"
+  //       },
+  //       estimates: {
+  //         medianCox: isHighRisk ? 850 : null,
+  //         medianRsf: isHighRisk ? 920 : null,
+  //         consensus: isHighRisk ? 885 : null
+  //       },
+  //       rmst: { cox: 1450.5, rsf: 1520.2 },
+  //       curveData: mockCurveData
+  //     });
+  //     setIsLoading(false);
+  //   }, 1000);
+  // };
 
   // Common Styles
   const inputClass = "w-full bg-[#0f172a] border border-slate-700 rounded-lg p-3 text-slate-200 focus:outline-none focus:border-pink-500 transition-colors";
@@ -771,6 +807,7 @@ const ModelDemo = () => {
                           className="w-full bg-[#1e293b] border border-slate-700 rounded p-2 text-sm text-white focus:border-pink-500 focus:outline-none placeholder-slate-600"
                           value={formData.genes[gene] || 0.0}
                           onChange={(e) => handleGeneChange(gene, e.target.value)}
+                          //why is gene not colored?
                         />
                       </div>
                     ))}
@@ -814,6 +851,8 @@ const ModelDemo = () => {
                         <h4 className="text-slate-200 font-bold uppercase tracking-wider mb-2">Relative Risk (Cox Hazard)</h4>
                         <p className="text-slate-500 text-xs mb-4 min-h-[32px]">Measures risk relative to an average patient in the training cohort.</p>
                         <div className="text-4xl font-bold text-blue-400">{results.summary?.coxHazard}</div>
+                      {/* <div className="text-4xl font-bold text-blue-400">{results.summary.coxHazard}</div>  */}
+                      {/*why is there a '?' after summary in line above  */}
                     </div>
 
                     <div className={cardClass}>
@@ -863,10 +902,11 @@ const ModelDemo = () => {
                 <div className="bg-[#0f172a] rounded-lg p-5 border border-slate-800">
                   <h4 className="text-blue-400 font-bold text-lg mb-1">Cox Median Survival</h4>
                   <div className="text-3xl font-bold text-white mb-3">
-                    {results.estimates?.medianCox ? `${results.estimates.medianCox} days` : "Not reached"}
+                    {results.estimates?.medianCox ? `${results.estimates.medianCox} days` : "Not reached
+                    // results should be in blue
                   </div>
                   <p className="text-xs text-slate-400 leading-relaxed">
-                    Median survival time inferred from the Cox survival curve.
+                     Median survival time inferred from the Cox survival curve. Reported as “Not reached” if survival probability does not fall below 50% within the observed follow-up window.
                   </p>
                 </div>
 
@@ -877,6 +917,7 @@ const ModelDemo = () => {
                   </div>
                   <p className="text-xs text-slate-400 leading-relaxed">
                     Median survival time inferred from the Random Survival Forest survival curve.
+                    Represents the time at which modeled survival probability falls below 50%.
                   </p>
                 </div>
 
@@ -884,9 +925,10 @@ const ModelDemo = () => {
                   <h4 className="text-purple-400 font-bold text-lg mb-1">Consensus Median</h4>
                   <div className="text-3xl font-bold text-white mb-3">
                     {results.estimates?.consensus ? `${results.estimates.consensus} days` : "Not reached"}
+                    {/*  the result in not blue */}
                   </div>
                   <p className="text-xs text-slate-400 leading-relaxed">
-                    Median survival estimate when both models report a similar value.
+                    Median survival estimate when both models report a similar value. Shown for comparison only; no single value is treated as absolute truth.
                   </p>
                 </div>
               </div>
@@ -896,7 +938,7 @@ const ModelDemo = () => {
             <section>
                  <h2 className="text-xl font-bold text-white mb-4">Restricted Mean Survival Time (RMST)</h2>
                  <p className="text-slate-400 text-sm mb-6">
-                    RMST summarizes the average survival time within the observed follow-up period.
+                    RMST summarizes the average survival time within the observed follow-up period.  even when median survival is not reached.
                  </p>
 
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -905,7 +947,7 @@ const ModelDemo = () => {
                             <div>
                                 <h4 className="text-slate-200 font-bold">Cox RMST</h4>
                                 <div className="text-xs text-slate-500 mt-1 max-w-xs">
-                                    Average survival time estimated from the Cox model.
+                                    Restricted Mean Survival Time estimated from the Cox model. Represents the average survival time within the observed follow-up period.
                                 </div>
                             </div>
                             <span className="text-2xl font-bold text-blue-400 font-mono">{results.rmst?.cox} days</span>
@@ -972,6 +1014,7 @@ const ModelDemo = () => {
                     itemStyle={{ fontSize: '12px' }}
                     labelStyle={{ color: '#94a3b8', marginBottom: '4px' }}
                     labelFormatter={(value) => `Day: ${Math.round(value)}`}
+                    {/* even the value is not blue */}
                   />
                   
                   <Legend verticalAlign="top" height={40} />
