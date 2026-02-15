@@ -568,6 +568,7 @@ const ModelDemo = () => {
     setMode(newMode);
     setResults(null);
     setSelectedPid('');
+    // Reset genes to 0 when switching modes
     const resetGenes = geneList.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), {});
     setFormData({ age: '', nodeStatus: 'Negative', genes: resetGenes });
   };
@@ -620,11 +621,14 @@ const ModelDemo = () => {
 
       // TRANSFORM GRAPH DATA: Backend sends {times:[], cox:[], rsf:[]} 
       // Recharts needs [{time, cox, rsf}, ...]
-      const transformedCurve = data.graph_data.times.map((t, i) => ({
-        time: Math.round(t),
-        cox: data.graph_data.cox[i],
-        rsf: data.graph_data.rsf[i]
-      }));
+      let transformedCurve = [];
+      if (data.graph_data && data.graph_data.times) {
+         transformedCurve = data.graph_data.times.map((t, i) => ({
+            time: Math.round(t),
+            cox: data.graph_data.cox[i],
+            rsf: data.graph_data.rsf[i]
+         }));
+      }
 
       setResults({
         ...data,
@@ -728,60 +732,83 @@ const ModelDemo = () => {
           </div>
         </div>
 
-        {/* RESULTS SECTION */}
+        {/* RESULTS SECTION WITH SAFETY CHECKS */}
         {results && (
           <div className="space-y-8 pb-12">
             <section>
-                <div className="flex items-center gap-2 mb-4"><AlertCircle className="text-pink-500" /><h2 className="text-xl font-bold">Risk Summary</h2></div>
+                <div className="flex items-center gap-2 mb-4">
+                    <AlertCircle className="text-pink-500" />
+                    <h2 className="text-xl font-bold">Risk Summary</h2>
+                </div>
+                
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* CARD 1: RISK PERCENTILE */}
                     <div className={cardClass}>
                         <h4 className="text-slate-400 text-xs uppercase mb-2">Cohort Risk Percentile</h4>
-                        {/* <div className="text-4xl font-bold text-blue-400">{results.risk_percentile.toFixed(1)}%</div>
-                        <p className="text-xs text-slate-500 mt-2">Higher than {results.risk_percentile.toFixed(0)}% of validated patients.</p> */}
-                      <div className="text-4xl font-bold text-blue-400">
+                        <div className="text-4xl font-bold text-blue-400">
                             {results.risk_percentile != null ? results.risk_percentile.toFixed(1) : 'N/A'}%
                         </div>
                         <p className="text-xs text-slate-500 mt-2">
-                            {/* Higher than {results.risk_percentile != null ? results.risk_percentile.toFixed(0) : '0'}% of validated patients. */}
-                          Score: {results.agreement_score != null ? results.agreement_score.toFixed(3) : 'N/A'}
+                            Higher than {results.risk_percentile != null ? results.risk_percentile.toFixed(0) : '0'}% of validated patients.
                         </p>
                     </div>
+
+                    {/* CARD 2: MODEL AGREEMENT */}
                     <div className={cardClass}>
                         <h4 className="text-slate-400 text-xs uppercase mb-2">Model Agreement</h4>
-                        {/* <div className="text-4xl font-bold text-purple-400">{results.agreement_label}</div>
-                        <p className="text-xs text-slate-500 mt-2">Score: {results.agreement_score.toFixed(3)}</p> */}
-                      <div className="text-4xl font-bold text-purple-400">
+                        <div className="text-4xl font-bold text-purple-400">
                             {results.agreement_label || "Unknown"}
                         </div>
                         <p className="text-xs text-slate-500 mt-2">
                             Score: {results.agreement_score != null ? results.agreement_score.toFixed(3) : 'N/A'}
                         </p>
                     </div>
+
+                    {/* CARD 3: CONSENSUS MEDIAN */}
                     <div className={cardClass}>
                         <h4 className="text-slate-400 text-xs uppercase mb-2">Dual-Model Consensus</h4>
-                        {/* <div className="text-4xl font-bold text-emerald-400">{results.consensus_median ? Math.round(results.consensus_median) : 'N/A'}</div>
-                        <p className="text-xs text-slate-500 mt-2">Combined median survival (days).</p> */}
-                      <div className="text-4xl font-bold text-emerald-400">
+                        <div className="text-4xl font-bold text-emerald-400">
                             {results.consensus_median != null ? Math.round(results.consensus_median) : 'Not Reached'}
                         </div>
                         <p className="text-xs text-slate-500 mt-2">Combined median survival (days).</p>
                     </div>
-                    </div>
                 </div>
             </section>
 
+            {/* SURVIVAL CURVES */}
             <section className="bg-[#1e293b] rounded-xl border border-slate-700/50 p-6 h-[450px]">
               <h3 className="text-white font-bold mb-4">Survival Curves</h3>
               <ResponsiveContainer width="100%" height="90%">
                 <LineChart data={results.curveData} margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.4} />
-                  <XAxis dataKey="time" stroke="#94a3b8" tick={{ fill: '#94a3b8', fontSize: 12 }} label={{ value: 'Time (days)', position: 'insideBottom', offset: -25, fill: '#94a3b8' }} />
-                  <YAxis stroke="#94a3b8" domain={[0, 1.05]} label={{ value: 'Probability', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} />
-                  <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155' }} labelFormatter={(v) => `Day: ${v}`} />
+                  <XAxis 
+                    dataKey="time" 
+                    stroke="#94a3b8" 
+                    tick={{ fill: '#94a3b8', fontSize: 12 }} 
+                    label={{ value: 'Time (days)', position: 'insideBottom', offset: -25, fill: '#94a3b8' }} 
+                  />
+                  <YAxis 
+                    stroke="#94a3b8" 
+                    domain={[0, 1.05]} 
+                    label={{ value: 'Probability', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} 
+                  />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155' }} 
+                    labelFormatter={(v) => `Day: ${v}`} 
+                  />
                   <Legend verticalAlign="top" height={40} />
+                  
                   <Line type="monotone" dataKey="cox" stroke="#3b82f6" name="CoxPH" strokeWidth={3} dot={false} />
                   <Line type="monotone" dataKey="rsf" stroke="#10b981" name="RSF" strokeWidth={3} strokeDasharray="4 4" dot={false} />
-                  {results.rsf_median && <ReferenceLine x={results.rsf_median} stroke="#ef4444" strokeDasharray="3 3" label={{ value: `Median: ${Math.round(results.rsf_median)}d`, fill: '#ef4444', fontSize: 11 }} />}
+                  
+                  {results.rsf_median != null && (
+                    <ReferenceLine 
+                        x={results.rsf_median} 
+                        stroke="#ef4444" 
+                        strokeDasharray="3 3" 
+                        label={{ value: `Median: ${Math.round(results.rsf_median)}d`, fill: '#ef4444', fontSize: 11 }} 
+                    />
+                  )}
                 </LineChart>
               </ResponsiveContainer>
             </section>
