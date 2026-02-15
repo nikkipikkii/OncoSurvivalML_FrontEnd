@@ -18,12 +18,16 @@ export default function GeneIntelligence() {
   const [loading, setLoading] = useState(true);
 
   // --- FETCH DATA ON MOUNT ---
+  // --- FETCH DATA ON MOUNT ---
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/gene-intelligence")
-      .then((res) => res.json())
+    // CHANGE THIS URL TO YOUR DEPLOYED BACKEND
+    fetch("https://oncosurvival-be.onrender.com/gene-intelligence") 
+      .then((res) => {
+          if (!res.ok) throw new Error("Network response was not ok");
+          return res.json();
+      })
       .then((data) => {
         setGeneTable(data);
-        // Set default selected gene to the top ranked one
         if (data.length > 0) {
           setSelectedGene(data[0].gene);
         }
@@ -34,6 +38,22 @@ export default function GeneIntelligence() {
         setLoading(false);
       });
   }, []);
+  // useEffect(() => {
+  //   fetch("http://127.0.0.1:8000/gene-intelligence")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setGeneTable(data);
+  //       // Set default selected gene to the top ranked one
+  //       if (data.length > 0) {
+  //         setSelectedGene(data[0].gene);
+  //       }
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Failed to load gene intelligence:", err);
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   // Derived state
   const selectedRow = geneTable.find(g => g.gene === selectedGene);
