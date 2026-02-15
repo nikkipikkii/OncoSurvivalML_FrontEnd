@@ -615,6 +615,14 @@ const ModelDemo = () => {
           genes: formData.genes
         }),
       });
+      console.log("--- DEBUGGING FETCH ---");
+console.log("API URL:", API_URL);
+console.log("Full Target:", `${API_URL}/predict`);
+console.log("Sending Data:", JSON.stringify({
+    age: parseFloat(formData.age),
+    nodeStatus: formData.nodeStatus,
+    genes: formData.genes
+}));
 
       if (!response.ok) throw new Error('Inference request failed');
       const data = await response.json();
