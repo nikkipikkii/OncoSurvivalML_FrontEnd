@@ -603,32 +603,83 @@ const ModelDemo = () => {
   };
 
   // --- RUN INFERENCE ---
+//   const runInference = async () => {
+//     setIsLoading(true);
+//     try {
+//       const response = await fetch(`${API_URL}/predict`, {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({
+//           age: parseFloat(formData.age),
+//           nodeStatus: formData.nodeStatus,
+//           genes: formData.genes
+//         }),
+//       });
+//       console.log("--- DEBUGGING FETCH ---");
+// console.log("API URL:", API_URL);
+// console.log("Full Target:", `${API_URL}/predict`);
+// console.log("Sending Data:", JSON.stringify({
+//     age: parseFloat(formData.age),
+//     nodeStatus: formData.nodeStatus,
+//     genes: formData.genes
+// }));
+
+//       if (!response.ok) throw new Error('Inference request failed');
+//       const data = await response.json();
+
+//       // TRANSFORM GRAPH DATA: Backend sends {times:[], cox:[], rsf:[]} 
+//       // Recharts needs [{time, cox, rsf}, ...]
+//       let transformedCurve = [];
+//       if (data.graph_data && data.graph_data.times) {
+//          transformedCurve = data.graph_data.times.map((t, i) => ({
+//             time: Math.round(t),
+//             cox: data.graph_data.cox[i],
+//             rsf: data.graph_data.rsf[i]
+//          }));
+//       }
+
+//       setResults({
+//         ...data,
+//         curveData: transformedCurve
+//       });
+//     } catch (error) {
+//       console.error("Inference Error:", error);
+//       alert("Failed to communicate with the AI models. Check console for details.");
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
   const runInference = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_URL}/predict`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      // 1. LOG FIRST (So you see this even if the network fails)
+      console.log("--- DEBUGGING FETCH ---");
+      console.log("API URL:", API_URL);
+      console.log("Target Endpoint:", `${API_URL}/predict`);
+      
+      const payload = {
           age: parseFloat(formData.age),
           nodeStatus: formData.nodeStatus,
           genes: formData.genes
-        }),
-      });
-      console.log("--- DEBUGGING FETCH ---");
-console.log("API URL:", API_URL);
-console.log("Full Target:", `${API_URL}/predict`);
-console.log("Sending Data:", JSON.stringify({
-    age: parseFloat(formData.age),
-    nodeStatus: formData.nodeStatus,
-    genes: formData.genes
-}));
+      };
+      console.log("Sending Payload:", JSON.stringify(payload, null, 2));
 
-      if (!response.ok) throw new Error('Inference request failed');
+      // 2. THEN FETCH
+      const response = await fetch(`${API_URL}/predict`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text(); // Get backend error message if available
+        console.error("Server Error Response:", errorText);
+        throw new Error(`Server responded with ${response.status}: ${errorText}`);
+      }
+
       const data = await response.json();
 
-      // TRANSFORM GRAPH DATA: Backend sends {times:[], cox:[], rsf:[]} 
-      // Recharts needs [{time, cox, rsf}, ...]
+      // TRANSFORM GRAPH DATA
       let transformedCurve = [];
       if (data.graph_data && data.graph_data.times) {
          transformedCurve = data.graph_data.times.map((t, i) => ({
@@ -642,9 +693,10 @@ console.log("Sending Data:", JSON.stringify({
         ...data,
         curveData: transformedCurve
       });
+
     } catch (error) {
       console.error("Inference Error:", error);
-      alert("Failed to communicate with the AI models. Check console for details.");
+      alert("Failed to communicate with the AI models. Check console (F12) for details.");
     } finally {
       setIsLoading(false);
     }
