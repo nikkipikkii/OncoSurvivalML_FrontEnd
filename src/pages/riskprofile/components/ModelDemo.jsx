@@ -742,7 +742,8 @@ const ModelDemo = () => {
                             {results.risk_percentile != null ? results.risk_percentile.toFixed(1) : 'N/A'}%
                         </div>
                         <p className="text-xs text-slate-500 mt-2">
-                            Higher than {results.risk_percentile != null ? results.risk_percentile.toFixed(0) : '0'}% of validated patients.
+                            {/* Higher than {results.risk_percentile != null ? results.risk_percentile.toFixed(0) : '0'}% of validated patients. */}
+                          Score: {results.agreement_score != null ? results.agreement_score.toFixed(3) : 'N/A'}
                         </p>
                     </div>
                     <div className={cardClass}>
