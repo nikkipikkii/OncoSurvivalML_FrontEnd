@@ -736,18 +736,35 @@ const ModelDemo = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className={cardClass}>
                         <h4 className="text-slate-400 text-xs uppercase mb-2">Cohort Risk Percentile</h4>
-                        <div className="text-4xl font-bold text-blue-400">{results.risk_percentile.toFixed(1)}%</div>
-                        <p className="text-xs text-slate-500 mt-2">Higher than {results.risk_percentile.toFixed(0)}% of validated patients.</p>
+                        {/* <div className="text-4xl font-bold text-blue-400">{results.risk_percentile.toFixed(1)}%</div>
+                        <p className="text-xs text-slate-500 mt-2">Higher than {results.risk_percentile.toFixed(0)}% of validated patients.</p> */}
+                      <div className="text-4xl font-bold text-blue-400">
+                            {results.risk_percentile != null ? results.risk_percentile.toFixed(1) : 'N/A'}%
+                        </div>
+                        <p className="text-xs text-slate-500 mt-2">
+                            Higher than {results.risk_percentile != null ? results.risk_percentile.toFixed(0) : '0'}% of validated patients.
+                        </p>
                     </div>
                     <div className={cardClass}>
                         <h4 className="text-slate-400 text-xs uppercase mb-2">Model Agreement</h4>
-                        <div className="text-4xl font-bold text-purple-400">{results.agreement_label}</div>
-                        <p className="text-xs text-slate-500 mt-2">Score: {results.agreement_score.toFixed(3)}</p>
+                        {/* <div className="text-4xl font-bold text-purple-400">{results.agreement_label}</div>
+                        <p className="text-xs text-slate-500 mt-2">Score: {results.agreement_score.toFixed(3)}</p> */}
+                      <div className="text-4xl font-bold text-purple-400">
+                            {results.agreement_label || "Unknown"}
+                        </div>
+                        <p className="text-xs text-slate-500 mt-2">
+                            Score: {results.agreement_score != null ? results.agreement_score.toFixed(3) : 'N/A'}
+                        </p>
                     </div>
                     <div className={cardClass}>
                         <h4 className="text-slate-400 text-xs uppercase mb-2">Dual-Model Consensus</h4>
-                        <div className="text-4xl font-bold text-emerald-400">{results.consensus_median ? Math.round(results.consensus_median) : 'N/A'}</div>
+                        {/* <div className="text-4xl font-bold text-emerald-400">{results.consensus_median ? Math.round(results.consensus_median) : 'N/A'}</div>
+                        <p className="text-xs text-slate-500 mt-2">Combined median survival (days).</p> */}
+                      <div className="text-4xl font-bold text-emerald-400">
+                            {results.consensus_median != null ? Math.round(results.consensus_median) : 'Not Reached'}
+                        </div>
                         <p className="text-xs text-slate-500 mt-2">Combined median survival (days).</p>
+                    </div>
                     </div>
                 </div>
             </section>
