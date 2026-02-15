@@ -806,7 +806,7 @@ const ModelDemo = () => {
                     <div className={cardClass}>
                         <h4 className="text-slate-400 text-xs uppercase mb-2">Cohort Risk Percentile</h4>
                         <div className="text-4xl font-bold text-blue-400">
-                            {results.risk_percentile != null ? results.risk_percentile.toFixed(1) : 'N/A'}%
+                            {results.risk_percentile != null ? results.risk_percentile.toFixed(1) : '0.0'}%
                         </div>
                         <p className="text-xs text-slate-500 mt-2">
                             Higher than {results.risk_percentile != null ? results.risk_percentile.toFixed(0) : '0'}% of validated patients.
