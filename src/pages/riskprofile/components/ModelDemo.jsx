@@ -595,16 +595,13 @@ const ModelDemo = () => {
     }));
   };
 
-  // --- FIX APPLIED: Corrected Syntax ---
   const resetForm = () => {
     setMode('manual');
     setSelectedPid('');
     setResults(null);
     setIsGenesOpen(false);
-    
-    // Properly closed the reduce function
-    const resetGenes = geneList.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), {}); 
-    
+    // FIX: Added {} and closed parenthesis properly
+    const resetGenes = geneList.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), {});
     setFormData({
       age: '',
       nodeStatus: 'Negative',
@@ -865,12 +862,10 @@ const ModelDemo = () => {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="bg-[#0f172a] rounded-lg p-5 border border-slate-800">
                   <h4 className="text-blue-400 font-bold text-lg mb-1">Cox Median Survival</h4>
-                  
-                  {/* FIX APPLIED: Corrected unclosed string and JSX syntax */}
+                  {/* FIX: Properly closed string and ternary */}
                   <div className="text-3xl font-bold text-white mb-3">
                     {results.estimates?.medianCox ? `${results.estimates.medianCox} days` : "Not reached"}
                   </div>
-                  
                   <p className="text-xs text-slate-400 leading-relaxed">
                      Median survival time inferred from the Cox survival curve. Reported as “Not reached” if survival probability does not fall below 50% within the observed follow-up window.
                   </p>
