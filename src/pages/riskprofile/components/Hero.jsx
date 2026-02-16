@@ -4,7 +4,13 @@ import dnaImage from './dna_nobg.png';
 
 const Hero = () => {
   const [openItem, setOpenItem] = useState(null);
-
+ const scrollToModel = () => {
+    // Matches the ID in index.jsx
+    const element = document.getElementById('model-interface');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   const guideItems = [
     {
       id: 1,
@@ -198,7 +204,10 @@ const Hero = () => {
       </div>
 
       {/* SCROLL INDICATOR */}
-      <div className="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-2 animate-bounce opacity-40">
+<div 
+        onClick={scrollToModel}
+        className="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-2 animate-bounce opacity-40 cursor-pointer hover:opacity-100 transition-opacity z-50"
+      >
         <span className="text-[10px] text-white tracking-[0.2em] uppercase">Scroll to Interface</span>
         <Icon name="ArrowDown" size={16} className="text-cyan-400" />
       </div>
