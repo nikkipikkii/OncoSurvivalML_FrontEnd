@@ -516,7 +516,6 @@
 //   );
 // };
 
-// export default ModelDemo;
 import React, { useState, useEffect } from 'react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine
@@ -540,10 +539,6 @@ const ModelDemo = () => {
     age: '',
     nodeStatus: 'Negative',
     genes: {} 
-//choose which is better
-    // genes: Array.from({ length: 30 }).reduce((acc, _, i) => ({ ...acc, [`Gene ${i + 1}`]: 0.0 }), {})
-
-
   });
 
   // Dynamic API URL from environment or fallback to localhost
@@ -577,8 +572,6 @@ const ModelDemo = () => {
     if (newMode === 'manual') {
         const resetGenes = geneList.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), {});
         setFormData({ age: '', nodeStatus: 'Negative', genes: resetGenes });
-
-          // if (newMode === 'manual') setFormData(prev => ({ ...prev, age: '', nodeStatus: 'Negative' }));
     }
   };
 
@@ -602,12 +595,16 @@ const ModelDemo = () => {
     }));
   };
 
+  // --- FIX APPLIED: Corrected Syntax ---
   const resetForm = () => {
     setMode('manual');
     setSelectedPid('');
     setResults(null);
     setIsGenesOpen(false);
-    const resetGenes = geneList.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), 
+    
+    // Properly closed the reduce function
+    const resetGenes = geneList.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), {}); 
+    
     setFormData({
       age: '',
       nodeStatus: 'Negative',
@@ -634,7 +631,7 @@ const ModelDemo = () => {
       if (!response.ok) throw new Error('Inference request failed');
       
       const data = await response.json();
-      //old code has setResults(data);
+      
       /**
        * Safeguard: If the backend sends 'graph_data' instead of 'curveData',
        * we map it here to ensure the chart renders correctly.
@@ -647,10 +644,8 @@ const ModelDemo = () => {
               rsf: data.graph_data.rsf[i]
           }));
       }
-      //do we need seprate processing of data??
+      
       setResults(processedData);
-      //where is set results it should have summary:
-      //ishighrisk
     } catch (error) {
       console.error("Inference Error:", error);
       alert("Backend Connection Error: Ensure main.py is running on port 8000");
@@ -658,34 +653,6 @@ const ModelDemo = () => {
       setIsLoading(false);
     }
   };
-// const runInference = () => {
-  //   setIsLoading(true);
-  //   setTimeout(() => {
-  //     const isHighRisk = formData.nodeStatus === 'Positive' || formData.age > 65;
-  //     const mockCurveData = Array.from({ length: 20 }, (_, i) => ({
-  //       time: i * 100,
-  //       cox: Math.exp(-(isHighRisk ? 0.0008 : 0.0003) * (i * 100)),
-  //       rsf: Math.exp(-(isHighRisk ? 0.0007 : 0.00025) * (i * 100)),
-  //     }));
-
-  //     setResults({
-  //       summary: {
-  //         coxHazard: isHighRisk ? 2.45 : 0.85,
-  //         rsfRisk: isHighRisk ? 12.5 : 4.2,
-  //         agreement: isHighRisk ? 0.88 : 0.92,
-  //         agreementLabel: "High"
-  //       },
-  //       estimates: {
-  //         medianCox: isHighRisk ? 850 : null,
-  //         medianRsf: isHighRisk ? 920 : null,
-  //         consensus: isHighRisk ? 885 : null
-  //       },
-  //       rmst: { cox: 1450.5, rsf: 1520.2 },
-  //       curveData: mockCurveData
-  //     });
-  //     setIsLoading(false);
-  //   }, 1000);
-  // };
 
   // Common Styles
   const inputClass = "w-full bg-[#0f172a] border border-slate-700 rounded-lg p-3 text-slate-200 focus:outline-none focus:border-pink-500 transition-colors";
@@ -807,7 +774,6 @@ const ModelDemo = () => {
                           className="w-full bg-[#1e293b] border border-slate-700 rounded p-2 text-sm text-white focus:border-pink-500 focus:outline-none placeholder-slate-600"
                           value={formData.genes[gene] || 0.0}
                           onChange={(e) => handleGeneChange(gene, e.target.value)}
-                          //why is gene not colored?
                         />
                       </div>
                     ))}
@@ -851,8 +817,6 @@ const ModelDemo = () => {
                         <h4 className="text-slate-200 font-bold uppercase tracking-wider mb-2">Relative Risk (Cox Hazard)</h4>
                         <p className="text-slate-500 text-xs mb-4 min-h-[32px]">Measures risk relative to an average patient in the training cohort.</p>
                         <div className="text-4xl font-bold text-blue-400">{results.summary?.coxHazard}</div>
-                      {/* <div className="text-4xl font-bold text-blue-400">{results.summary.coxHazard}</div>  */}
-                      {/*why is there a '?' after summary in line above  */}
                     </div>
 
                     <div className={cardClass}>
@@ -901,10 +865,12 @@ const ModelDemo = () => {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="bg-[#0f172a] rounded-lg p-5 border border-slate-800">
                   <h4 className="text-blue-400 font-bold text-lg mb-1">Cox Median Survival</h4>
+                  
+                  {/* FIX APPLIED: Corrected unclosed string and JSX syntax */}
                   <div className="text-3xl font-bold text-white mb-3">
-                    {results.estimates?.medianCox ? `${results.estimates.medianCox} days` : "Not reached
-                    // results should be in blue
+                    {results.estimates?.medianCox ? `${results.estimates.medianCox} days` : "Not reached"}
                   </div>
+                  
                   <p className="text-xs text-slate-400 leading-relaxed">
                      Median survival time inferred from the Cox survival curve. Reported as “Not reached” if survival probability does not fall below 50% within the observed follow-up window.
                   </p>
@@ -925,7 +891,6 @@ const ModelDemo = () => {
                   <h4 className="text-purple-400 font-bold text-lg mb-1">Consensus Median</h4>
                   <div className="text-3xl font-bold text-white mb-3">
                     {results.estimates?.consensus ? `${results.estimates.consensus} days` : "Not reached"}
-                    {/*  the result in not blue */}
                   </div>
                   <p className="text-xs text-slate-400 leading-relaxed">
                     Median survival estimate when both models report a similar value. Shown for comparison only; no single value is treated as absolute truth.
@@ -938,7 +903,7 @@ const ModelDemo = () => {
             <section>
                  <h2 className="text-xl font-bold text-white mb-4">Restricted Mean Survival Time (RMST)</h2>
                  <p className="text-slate-400 text-sm mb-6">
-                    RMST summarizes the average survival time within the observed follow-up period.  even when median survival is not reached.
+                    RMST summarizes the average survival time within the observed follow-up period, even when median survival is not reached.
                  </p>
 
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1014,7 +979,6 @@ const ModelDemo = () => {
                     itemStyle={{ fontSize: '12px' }}
                     labelStyle={{ color: '#94a3b8', marginBottom: '4px' }}
                     labelFormatter={(value) => `Day: ${Math.round(value)}`}
-                    {/* even the value is not blue */}
                   />
                   
                   <Legend verticalAlign="top" height={40} />
@@ -1065,366 +1029,3 @@ const ModelDemo = () => {
 };
 
 export default ModelDemo;
-// import React, { useState, useEffect } from 'react';
-// import {
-//   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine
-// } from 'recharts';
-// import { Activity, GitCommit, AlertCircle, Clock, ChevronDown, ChevronUp, Play, RotateCcw, Info } from 'lucide-react';
-
-// const ModelDemo = () => {
-//   // --- STATE MANAGEMENT ---
-//   const [mode, setMode] = useState('manual');
-//   const [selectedPid, setSelectedPid] = useState('');
-//   const [results, setResults] = useState(null);
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [isGenesOpen, setIsGenesOpen] = useState(false);
-  
-//   const [existingPatients, setExistingPatients] = useState([]);
-//   const [geneList, setGeneList] = useState([]);
-
-//   const [formData, setFormData] = useState({
-//     age: '',
-//     nodeStatus: 'Negative',
-//     genes: {} 
-//   });
-
-//   const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-
-//   // --- INITIAL LOAD: FETCH PATIENTS & GENES ---
-//   useEffect(() => {
-//     const fetchMetadata = async () => {
-//       try {
-//         const response = await fetch(`${API_URL}/metadata`);
-//         if (!response.ok) throw new Error('Failed to fetch metadata');
-//         const data = await response.json();
-        
-//         setExistingPatients(data.patients);
-//         setGeneList(data.genes);
-        
-//         // Initialize genes with 0.0
-//         const initialGenes = data.genes.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), {});
-//         setFormData(prev => ({ ...prev, genes: initialGenes }));
-//       } catch (err) {
-//         console.error("Metadata fetch error:", err);
-//       }
-//     };
-//     fetchMetadata();
-//   }, [API_URL]);
-
-//   // --- HANDLERS ---
-//   const handleModeChange = (newMode) => {
-//     setMode(newMode);
-//     setResults(null);
-//     setSelectedPid('');
-//     // Reset genes to 0 when switching modes
-//     const resetGenes = geneList.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), {});
-//     setFormData({ age: '', nodeStatus: 'Negative', genes: resetGenes });
-//   };
-
-//   const handlePatientSelect = (e) => {
-//     const pid = e.target.value;
-//     setSelectedPid(pid);
-//     const patient = existingPatients.find(p => p.id === pid);
-//     if (patient) {
-//       setFormData(prev => ({ 
-//         ...prev, 
-//         age: patient.age, 
-//         nodeStatus: patient.node === 1 ? 'Positive' : 'Negative' 
-//       }));
-//     }
-//   };
-
-//   const handleGeneChange = (geneKey, value) => {
-//     setFormData(prev => ({
-//       ...prev,
-//       genes: { ...prev.genes, [geneKey]: parseFloat(value) || 0 }
-//     }));
-//   };
-
-//   const resetForm = () => {
-//     setMode('manual');
-//     setSelectedPid('');
-//     setResults(null);
-//     setIsGenesOpen(false);
-//     const resetGenes = geneList.reduce((acc, gene) => ({ ...acc, [gene]: 0.0 }), {});
-//     setFormData({ age: '', nodeStatus: 'Negative', genes: resetGenes });
-//   };
-
-//   // --- RUN INFERENCE ---
-// //   const runInference = async () => {
-// //     setIsLoading(true);
-// //     try {
-// //       const response = await fetch(`${API_URL}/predict`, {
-// //         method: 'POST',
-// //         headers: { 'Content-Type': 'application/json' },
-// //         body: JSON.stringify({
-// //           age: parseFloat(formData.age),
-// //           nodeStatus: formData.nodeStatus,
-// //           genes: formData.genes
-// //         }),
-// //       });
-// //       console.log("--- DEBUGGING FETCH ---");
-// // console.log("API URL:", API_URL);
-// // console.log("Full Target:", `${API_URL}/predict`);
-// // console.log("Sending Data:", JSON.stringify({
-// //     age: parseFloat(formData.age),
-// //     nodeStatus: formData.nodeStatus,
-// //     genes: formData.genes
-// // }));
-
-// //       if (!response.ok) throw new Error('Inference request failed');
-// //       const data = await response.json();
-
-// //       // TRANSFORM GRAPH DATA: Backend sends {times:[], cox:[], rsf:[]} 
-// //       // Recharts needs [{time, cox, rsf}, ...]
-// //       let transformedCurve = [];
-// //       if (data.graph_data && data.graph_data.times) {
-// //          transformedCurve = data.graph_data.times.map((t, i) => ({
-// //             time: Math.round(t),
-// //             cox: data.graph_data.cox[i],
-// //             rsf: data.graph_data.rsf[i]
-// //          }));
-// //       }
-
-// //       setResults({
-// //         ...data,
-// //         curveData: transformedCurve
-// //       });
-// //     } catch (error) {
-// //       console.error("Inference Error:", error);
-// //       alert("Failed to communicate with the AI models. Check console for details.");
-// //     } finally {
-// //       setIsLoading(false);
-// //     }
-// //   };
-//   const runInference = async () => {
-//     setIsLoading(true);
-//     try {
-//       // 1. LOG FIRST (So you see this even if the network fails)
-//       console.log("--- DEBUGGING FETCH ---");
-//       console.log("API URL:", API_URL);
-//       console.log("Target Endpoint:", `${API_URL}/predict`);
-      
-//       const payload = {
-//           age: parseFloat(formData.age),
-//           nodeStatus: formData.nodeStatus,
-//           genes: formData.genes
-//       };
-//       console.log("Sending Payload:", JSON.stringify(payload, null, 2));
-
-//       // 2. THEN FETCH
-//       const response = await fetch(`${API_URL}/predict`, {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(payload),
-//       });
-
-//       if (!response.ok) {
-//         const errorText = await response.text(); // Get backend error message if available
-//         console.error("Server Error Response:", errorText);
-//         throw new Error(`Server responded with ${response.status}: ${errorText}`);
-//       }
-
-//       const data = await response.json();
-
-//       // TRANSFORM GRAPH DATA
-//       let transformedCurve = [];
-//       if (data.graph_data && data.graph_data.times) {
-//          transformedCurve = data.graph_data.times.map((t, i) => ({
-//             time: Math.round(t),
-//             cox: data.graph_data.cox[i],
-//             rsf: data.graph_data.rsf[i]
-//          }));
-//       }
-
-//       setResults({
-//         ...data,
-//         curveData: transformedCurve
-//       });
-
-//     } catch (error) {
-//       console.error("Inference Error:", error);
-//       alert("Failed to communicate with the AI models. Check console (F12) for details.");
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   // Styles
-//   const inputClass = "w-full bg-[#0f172a] border border-slate-700 rounded-lg p-3 text-slate-200 focus:outline-none focus:border-pink-500 transition-colors";
-//   const labelClass = "block text-sm font-medium text-slate-400 mb-2";
-//   const cardClass = "bg-[#1e293b] rounded-xl border border-slate-700/50 p-6";
-
-//   return (
-//     <div className="min-h-screen bg-[#0B1120] text-slate-200 font-sans p-4 md:p-8">
-//       <div className="max-w-6xl mx-auto">
-        
-//         {/* HEADER */}
-//         <div className="flex justify-between items-start mb-8 border-b border-slate-800 pb-6">
-//           <div>
-//             <div className="flex items-center gap-3 mb-1">
-//               <Activity className="w-6 h-6 text-pink-500" />
-//               <h1 className="text-2xl font-bold text-white tracking-tight">OncoRisk Research Model</h1>
-//             </div>
-//             <p className="text-slate-500 text-sm">Cox + RSF Dual Inference System</p>
-//           </div>
-//           <div className="flex items-center gap-2">
-//             <div className={`w-2 h-2 rounded-full ${isLoading ? 'bg-amber-500' : 'bg-emerald-500'} animate-pulse`}></div>
-//             <span className={`${isLoading ? 'text-amber-500' : 'text-emerald-500'} text-xs font-medium uppercase tracking-wider`}>
-//                 {isLoading ? 'Processing' : 'System Ready'}
-//             </span>
-//           </div>
-//         </div>
-
-//         {/* INPUT CARD */}
-//         <div className="bg-[#1e293b] rounded-xl border border-slate-700/50 shadow-xl overflow-hidden mb-8">
-//           <div className="grid grid-cols-2 p-6 gap-4 border-b border-slate-700/50">
-//             <button onClick={() => handleModeChange('manual')} className={`py-3 rounded-lg border font-medium transition-all ${mode === 'manual' ? 'border-pink-500 text-pink-500 bg-pink-500/5' : 'border-slate-700 text-slate-400'}`}>✎ Manual Profile</button>
-//             <button onClick={() => handleModeChange('existing')} className={`py-3 rounded-lg border font-medium transition-all ${mode === 'existing' ? 'border-blue-500 text-blue-400 bg-blue-500/5' : 'border-slate-700 text-slate-400'}`}>🗄 Select Patient</button>
-//           </div>
-
-//           <div className="p-6 md:p-8 space-y-8">
-//             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-//               <div>
-//                 {mode === 'existing' ? (
-//                   <>
-//                     <label className={labelClass}>Patient ID</label>
-//                     <select className={inputClass} value={selectedPid} onChange={handlePatientSelect}>
-//                       <option value="">-- Select Patient --</option>
-//                       {existingPatients.map(p => <option key={p.id} value={p.id}>{p.id}</option>)}
-//                     </select>
-//                   </>
-//                 ) : (
-//                   <>
-//                     <label className={labelClass}>Age (years)</label>
-//                     <input type="number" className={inputClass} value={formData.age} onChange={(e) => setFormData({...formData, age: e.target.value})} />
-//                   </>
-//                 )}
-//               </div>
-//               <div>
-//                 <label className={labelClass}>Lymph Node Status</label>
-//                 <select disabled={mode === 'existing'} className={`${inputClass} ${mode === 'existing' ? 'opacity-50' : ''}`} value={formData.nodeStatus} onChange={(e) => setFormData({...formData, nodeStatus: e.target.value})}>
-//                   <option value="Negative">Negative</option>
-//                   <option value="Positive">Positive</option>
-//                 </select>
-//               </div>
-//             </div>
-
-//             <div className="border-t border-slate-700 pt-6">
-//               <button onClick={() => setIsGenesOpen(!isGenesOpen)} className="w-full flex items-center justify-between bg-[#0f172a] p-4 rounded-lg border border-slate-700 hover:border-pink-500/50">
-//                 <div className="flex items-center gap-3">
-//                     <GitCommit className="w-5 h-5 text-pink-500" />
-//                     <span className="text-white font-medium">Molecular Profile ({geneList.length} Genes)</span>
-//                 </div>
-//                 {isGenesOpen ? <ChevronUp /> : <ChevronDown />}
-//               </button>
-
-//               {isGenesOpen && (
-//                 <div className="mt-4 bg-[#0f172a] rounded-xl border border-slate-700 p-4 grid grid-cols-1 md:grid-cols-3 gap-4 max-h-[300px] overflow-y-auto">
-//                   {geneList.map((gene) => (
-//                     <div key={gene}>
-//                       <label className="block text-xs text-slate-400 mb-1">{gene}</label>
-//                       <input type="number" step="0.1" className="w-full bg-[#1e293b] border border-slate-700 rounded p-2 text-sm text-white" value={formData.genes[gene] || 0.0} onChange={(e) => handleGeneChange(gene, e.target.value)} />
-//                     </div>
-//                   ))}
-//                 </div>
-//               )}
-//             </div>
-
-//             <div className="flex gap-4 pt-4 border-t border-slate-800">
-//               <button onClick={runInference} disabled={isLoading || !formData.age} className={`flex-1 py-4 rounded-lg font-semibold text-white flex items-center justify-center gap-2 ${isLoading ? 'bg-slate-700' : 'bg-blue-600 hover:bg-blue-500'}`}>
-//                 {isLoading ? 'Running...' : <><Play size={16}/> Run Analysis</>}
-//               </button>
-//               <button onClick={resetForm} className="px-6 py-4 rounded-lg border border-slate-600 text-slate-300 hover:bg-slate-800"><RotateCcw size={20}/></button>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* RESULTS SECTION WITH SAFETY CHECKS */}
-//         {results && (
-//           <div className="space-y-8 pb-12">
-//             <section>
-//                 <div className="flex items-center gap-2 mb-4">
-//                     <AlertCircle className="text-pink-500" />
-//                     <h2 className="text-xl font-bold">Risk Summary</h2>
-//                 </div>
-                
-//                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-//                     {/* CARD 1: RISK PERCENTILE */}
-//                     <div className={cardClass}>
-//                         <h4 className="text-slate-400 text-xs uppercase mb-2">Cohort Risk Percentile</h4>
-//                         <div className="text-4xl font-bold text-blue-400">
-//                             {results.risk_percentile != null ? results.risk_percentile.toFixed(1) : '0.0'}%
-//                         </div>
-//                         <p className="text-xs text-slate-500 mt-2">
-//                             Higher than {results.risk_percentile != null ? results.risk_percentile.toFixed(0) : '0'}% of validated patients.
-//                         </p>
-//                     </div>
-
-//                     {/* CARD 2: MODEL AGREEMENT */}
-//                     <div className={cardClass}>
-//                         <h4 className="text-slate-400 text-xs uppercase mb-2">Model Agreement</h4>
-//                         <div className="text-4xl font-bold text-purple-400">
-//                             {results.agreement_label || "Unknown"}
-//                         </div>
-//                         <p className="text-xs text-slate-500 mt-2">
-//                             Score: {results.agreement_score != null ? results.agreement_score.toFixed(3) : 'N/A'}
-//                         </p>
-//                     </div>
-
-//                     {/* CARD 3: CONSENSUS MEDIAN */}
-//                     <div className={cardClass}>
-//                         <h4 className="text-slate-400 text-xs uppercase mb-2">Dual-Model Consensus</h4>
-//                         <div className="text-4xl font-bold text-emerald-400">
-//                             {results.consensus_median != null ? Math.round(results.consensus_median) : 'Not Reached'}
-//                         </div>
-//                         <p className="text-xs text-slate-500 mt-2">Combined median survival (days).</p>
-//                     </div>
-//                 </div>
-//             </section>
-
-//             {/* SURVIVAL CURVES */}
-//             <section className="bg-[#1e293b] rounded-xl border border-slate-700/50 p-6 h-[450px]">
-//               <h3 className="text-white font-bold mb-4">Survival Curves</h3>
-//               <ResponsiveContainer width="100%" height="90%">
-//                 <LineChart data={results.curveData} margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
-//                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.4} />
-//                   <XAxis 
-//                     dataKey="time" 
-//                     stroke="#94a3b8" 
-//                     tick={{ fill: '#94a3b8', fontSize: 12 }} 
-//                     label={{ value: 'Time (days)', position: 'insideBottom', offset: -25, fill: '#94a3b8' }} 
-//                   />
-//                   <YAxis 
-//                     stroke="#94a3b8" 
-//                     domain={[0, 1.05]} 
-//                     label={{ value: 'Probability', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} 
-//                   />
-//                   <Tooltip 
-//                     contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155' }} 
-//                     labelFormatter={(v) => `Day: ${v}`} 
-//                   />
-//                   <Legend verticalAlign="top" height={40} />
-                  
-//                   <Line type="monotone" dataKey="cox" stroke="#3b82f6" name="CoxPH" strokeWidth={3} dot={false} />
-//                   <Line type="monotone" dataKey="rsf" stroke="#10b981" name="RSF" strokeWidth={3} strokeDasharray="4 4" dot={false} />
-                  
-//                   {results.rsf_median != null && (
-//                     <ReferenceLine 
-//                         x={results.rsf_median} 
-//                         stroke="#ef4444" 
-//                         strokeDasharray="3 3" 
-//                         label={{ value: `Median: ${Math.round(results.rsf_median)}d`, fill: '#ef4444', fontSize: 11 }} 
-//                     />
-//                   )}
-//                 </LineChart>
-//               </ResponsiveContainer>
-//             </section>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ModelDemo;
