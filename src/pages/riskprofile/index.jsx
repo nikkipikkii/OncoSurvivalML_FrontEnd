@@ -20,13 +20,14 @@ const ResearchPublications = () => {
       <div className="min-h-screen bg-background">
         <Header />
 
-        <main className="pt-20 lg:pt-24">
+        <main >
+          {/* className="pt-20 lg:pt-24" */}
           
           {/* Top Section with DNA & Explainer */}
           <Hero />
 
-          {/* Interactive Model Section */}
-          <section className="bg-muted/30 border-y border-border">
+          {/* Interactive Model Section - ADDED ID HERE */}
+          <section id="model-interface" className="bg-muted/30 border-y border-border">
             <div className="container mx-auto px-4 lg:px-8 py-10 md:py-14">
               <ModelDemo />
             </div>
