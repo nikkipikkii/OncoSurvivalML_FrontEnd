@@ -6,7 +6,7 @@ import {
 import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import Icon from '../../../components/AppIcon';
 import Button from '../../../components/ui/Button';
-
+import { Link } from 'react-router-dom';
 // --- MODAL COMPONENT ---
 const CohortModal = ({ isOpen, onClose, initialIndex, chartData }) => {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
@@ -288,11 +288,40 @@ const HeroSection = () => {
               <p className="text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed">
                 Explore survival analysis, individual risk profiles, and biological drivers across breast cancer cohorts. Integrates clinical, pathological, and molecular data using a dual-model system designed for transparent hazard modeling and cohort-level profiling.
               </p>
-
+{/* 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button variant="default" size="lg" iconName="FlaskConical" iconPosition="left" className="w-full sm:w-auto">Explore the Model</Button>
                 <Button variant="outline" size="lg" iconName="BookOpen" iconPosition="left" className="w-full sm:w-auto">View Documentation</Button>
-              </div>
+              </div> */}
+              <div className="flex flex-col sm:flex-row gap-4">
+    {/* 1. LINK TO RISK PROFILE */}
+    <Link to="/riskprofile">
+        <Button 
+            variant="default" 
+            size="lg" 
+            iconName="FlaskConical" 
+            iconPosition="left" 
+            className="w-full sm:w-auto"
+        >
+            Explore the Model
+        </Button>
+    </Link>
+
+    {/* 2. SCROLL TO DOCUMENTATION */}
+    <Button 
+        variant="outline" 
+        size="lg" 
+        iconName="BookOpen" 
+        iconPosition="left" 
+        className="w-full sm:w-auto"
+        onClick={() => {
+            const element = document.getElementById('technical-docs');
+            if (element) element.scrollIntoView({ behavior: 'smooth' });
+        }}
+    >
+        View Documentation
+    </Button>
+</div>
 
               <div className="grid grid-cols-3 gap-4 md:gap-6 pt-6 border-t border-border">
                 <div className="space-y-1">
