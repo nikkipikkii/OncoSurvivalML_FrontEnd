@@ -281,7 +281,7 @@ const HeroSection = () => {
               </div>
 
               <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight">
-                OncoSurvival ML
+                OncoSurvival
                 <span className="block text-accent mt-2">Clinicogenomic Survival Intelligence</span>
               </h1>
 
