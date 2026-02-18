@@ -28,7 +28,9 @@ const InteractiveLandingHub = () => {
         {/* <ModelDemo /> */}
         {/* <CaseStudies /> */}
         {/* <CTASection /> */}
-        <TechnicalDeepDive />
+        <section id="technical-docs">
+           <TechnicalDeepDive />
+        </section>
         {/* <ProjectImpact /> */}
       </main>
       <Footer />
