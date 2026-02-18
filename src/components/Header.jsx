@@ -33,7 +33,7 @@ const Header = () => {
             <div className="header-logo-icon">
               <Icon name="Dna" size={24} color="var(--color-accent)" />
             </div>
-            <span className="header-logo-text">OncoRisk</span>
+            <span className="header-logo-text">OncoSurvival</span>
           </Link>
 
           <div className="header-nav-desktop">
