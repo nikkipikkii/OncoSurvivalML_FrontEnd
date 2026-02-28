@@ -27,7 +27,7 @@ function App() {
     };
 
     
-    const intervalId = setInterval(pingBackend, 300000);
+    const intervalId = setInterval(pingBackend, 600000);
 
     // Call it once immediately when the app loads
     pingBackend();
