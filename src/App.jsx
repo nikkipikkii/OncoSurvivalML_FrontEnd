@@ -13,12 +13,12 @@ import Routes from "./Routes";
 
 function App() {
   useEffect(() => {
-    // Get the API URL from your environment variables, or use the local default
+    // Matches the API connection logic from ModelDemo.jsx
     const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
     
     const pingBackend = async () => {
       try {
-        // Send a lightweight GET request to your metadata endpoint
+        // Hitting the /metadata endpoint to keep the server awake
         await fetch(`${API_URL}/metadata`);
         console.log("Keep-alive ping successful.");
       } catch (error) {
@@ -26,10 +26,10 @@ function App() {
       }
     };
 
-    // Set an interval to run every 10 minutes (600,000 milliseconds)
-    const intervalId = setInterval(pingBackend, 600000);
+    
+    const intervalId = setInterval(pingBackend, 300000);
 
-    // Call it once immediately when the app loads so the server wakes up right away
+    // Call it once immediately when the app loads
     pingBackend();
 
     // Cleanup function to clear the interval if the component unmounts
