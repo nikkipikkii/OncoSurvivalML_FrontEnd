@@ -86,11 +86,11 @@ const DevelopmentPerformance = () => {
             <div className="container mx-auto px-4 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
                 <div className="relative">
-                  <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8 flex items-center justify-center">
+                  {/* <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8 flex items-center justify-center">
                     <div className="w-full h-[260px] md:h-[320px] rounded-xl bg-gradient-to-br from-accent/20 via-primary/10 to-transparent flex items-center justify-center">
                       <span className="text-sm text-muted-foreground uppercase tracking-widest">Model Architecture Visual</span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="max-w-xl">
