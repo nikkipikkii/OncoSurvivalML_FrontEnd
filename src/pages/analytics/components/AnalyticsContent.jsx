@@ -168,11 +168,11 @@ const AnalyticsContent = () => {
             </div>
             
             {/* GRAPH PLACEHOLDER */}
-            <div className="bg-[#080c14] rounded-3xl border border-white/10 p-2 overflow-hidden shadow-2xl relative min-h-[300px] flex items-center justify-center group">
+            {/* <div className="bg-[#080c14] rounded-3xl border border-white/10 p-2 overflow-hidden shadow-2xl relative min-h-[300px] flex items-center justify-center group">
                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/5 to-transparent pointer-events-none"></div>
                <div className="text-slate-600 font-mono text-sm group-hover:text-cyan-500 transition-colors">
                  
-               </div>
+               </div> */}
             </div>
           </div>
         </div>
