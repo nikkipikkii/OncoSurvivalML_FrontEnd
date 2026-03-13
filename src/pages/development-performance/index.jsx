@@ -432,30 +432,59 @@ const DevelopmentPerformance = () => {
                 <div className="bg-card border-l-4 border-l-primary border border-border rounded-2xl p-6 md:p-8 flex flex-col shadow-sm">
                   <h3 className="text-lg md:text-xl font-semibold mb-3 text-primary">Cox Proportional Hazards (Mechanistic)</h3>
                   <div className="mb-6 space-y-1">
+                    
                     <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">Train</span><span className="font-mono font-medium">0.797</span></div>
                     <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">Test</span><span className="font-mono font-medium">0.791</span></div>
-                    <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">External (METABRIC)</span><span className="font-mono font-medium">0.634</span></div>
+                    <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">External (METABRIC)</span><span className="font-mono font-medium">0.641</span></div>
+                      <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">Log-Rank</span><span className="font-mono font-medium">p=4.88 x 10<sup>-37</sup></span></div>
                   </div>
+                   <h3 className="text-lg md:text-xl font-semibold mb-3 text-primary">Model: CoxPH (31 genes + clinical) </h3>
+                     <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">Model </span><span className="font-mono font-medium">T CGA Train C |</span>
+                     <span className="font-mono font-medium">TCGA Test C|</span><span className="font-mono font-medium">METABRIC C</span></div>
+                  
+                     <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">CoxPH (21 genes + clinical)</span>
+                     <span className="font-mono font-medium">~0.81</span><span className="font-mono font-medium">~0.791</span>
+                         <span className="font-mono font-medium">0.634</span>
+                     
+                     </div>
+                      <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">Random Survival Forest</span> <span className="font-mono font-medium">~0.87</span>
+                       <span className="font-mono font-medium">~0.736</span>
+                         <span className="font-mono font-medium">0.641</span>
+                      
+                      
+                      </div>
+                  <br></br>
+                  
                   <ul className="space-y-2 text-sm text-muted-foreground mb-6 flex-1">
                     <li className="flex items-start space-x-2"><span className="text-accent">•</span><span>Strong internal consistency</span></li>
                     <li className="flex items-start space-x-2"><span className="text-accent">•</span><span>Stable interpretable behavior</span></li>
                   </ul>
-                  <div className="bg-muted/40 rounded-xl flex items-center justify-center h-24 uppercase tracking-tighter text-[10px] text-muted-foreground">Hazard Structure Visualization</div>
+                  {/* <div className="bg-muted/40 rounded-xl flex items-center justify-center h-24 uppercase tracking-tighter text-[10px] text-muted-foreground">Hazard Structure Visualization</div> */}
+                  <br></br>
                 </div>
 
                 {/* RSF Card */}
                 <div className="bg-card border-l-4 border-l-accent border border-border rounded-2xl p-6 md:p-8 flex flex-col shadow-sm">
                   <h3 className="text-lg md:text-xl font-semibold mb-3 text-accent">Random Survival Forest (Nonlinear)</h3>
                   <div className="mb-6 space-y-1">
-                    <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">Train</span><span className="font-mono font-medium">0.869</span></div>
+                    
+                    <div className="flex justify-between text-sm border-b border-border/50 py-1"><span 
+                    className="text-muted-foreground">Train</span><span className="font-mono font-medium">0.869</span></div>
                     <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">Test</span><span className="font-mono font-medium">0.736</span></div>
                     <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">External (METABRIC)</span><span className="font-mono font-medium">0.632</span></div>
+                     <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">Log-Rank</span><span className="font-mono font-medium">p=1.46 x 10<sup>-37</sup></span></div>
                   </div>
+                   {/* <h3 className="text-lg md:text-xl font-semibold mb-3 text-accent">Model: RSF (31genes + clinical)</h3> */}
+                  
+                  {/* <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">T CGA Train C</span><span className="font-mono font-medium">~0.87</span></div>
+                     <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">TCGA Test C</span><span className="font-mono font-medium">0.736</span></div>
+                      <div className="flex justify-between text-sm border-b border-border/50 py-1"><span className="text-muted-foreground">METABRIC C</span><span className="font-mono font-medium">0.641</span></div>
+                      <br></br> */}
                   <ul className="space-y-2 text-sm text-muted-foreground mb-6 flex-1">
                     <li className="flex items-start space-x-2"><span className="text-accent">•</span><span>Captures higher-order interactions</span></li>
                     <li className="flex items-start space-x-2"><span className="text-accent">•</span><span>Complementary risk perspective</span></li>
                   </ul>
-                  <div className="bg-muted/40 rounded-xl flex items-center justify-center h-24 uppercase tracking-tighter text-[10px] text-muted-foreground">Nonlinear Risk Estimation</div>
+                  {/* <div className="bg-muted/40 rounded-xl flex items-center justify-center h-24 uppercase tracking-tighter text-[10px] text-muted-foreground">Nonlinear Risk Estimation</div> */}
                 </div>
               </div>
             </div>
@@ -559,24 +588,7 @@ const DevelopmentPerformance = () => {
           </section>
 
           {/* Comparative Analysis */}
-          <section className="py-12 md:py-16 lg:py-20 bg-muted/30 border-t border-border/40">
-            <div className="container mx-auto px-4 lg:px-8">
-              <div className="mb-8 md:mb-12">
-                <h2 className="text-2xl md:text-3xl font-bold mb-3 text-primary">Comparative Analysis</h2>
-                <p className="text-sm md:text-base text-muted-foreground">OncoRisk performance compared to established survival prediction models.</p>
-              </div>
-              <ComparisonChart data={comparisonData} title="Model Performance Comparison" />
-              <div className="mt-8 bg-success/5 border border-success/20 rounded-lg p-6 flex items-start space-x-4">
-                <Icon name="TrendingUp" size={24} className="text-success flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground">Superior Performance Across All Metrics</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    OncoRisk demonstrates statistically significant improvements over traditional staging systems. Our ensemble approach achieves 94.2% accuracy.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
+
 {/* 
           <section className="py-12 md:py-16 lg:py-20 bg-muted/30">
             <div className="container mx-auto px-4 lg:px-8">

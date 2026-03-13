@@ -77,8 +77,268 @@ const Cc = () => {
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-2 md:px-2">
+        {/* new section */}
+        {/* ============================================================ */}
+{/* NEW SECTION: BREAST CANCER MODEL EXPLANATION (Before Technical Deep Dive) */}
+{/* ============================================================ */}
+{/* ============================================================ */}
+{/* NEW SECTION: BREAST CANCER MODEL EXPLANATION (Before Technical Deep Dive) */}
+{/* ============================================================ */}
+<section className="  bg-background relative overflow-hidden">
+  {/* Embedded CSS */}
+  <style>{`
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fade-in-up {
+      animation: fade-in-up 0.6s ease-out forwards;
+      opacity: 0;
+    }
+    .pipeline-connector {
+      animation: pulse-line 2s ease-in-out infinite;
+    }
+    @keyframes pulse-line {
+      0%, 100% {
+        opacity: 0.4;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+  `}</style>
+
+  {/* Background Decor */}
+  <div className="absolute top-0 left-0 w-1/4 h-1/4 bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none" />
+  <div className="absolute bottom-0 right-0 w-1/4 h-1/4 bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
+
+  <div className="container mx-auto px-4 md:px-6">
+    
+    {/* Top Section: Title + Badge */}
+    <div className="mb-4">
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-bold uppercase tracking-widest mb-4">
+        <Icon name="Activity" size={14} />
+        <span>About The Project:</span>
+      </div>
+      <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+        Clinicogenomic Survival Modeling in Breast Cancer
+      </h2>
+    </div>
+
+    {/* Main Grid: Left Content + Right Flowchart */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      
+      {/* LEFT SIDE: Introduction Paragraphs + Validation + Key Achievements */}
+      <div className="space-y-8">
         
+        {/* Introduction Paragraphs */}
+        <div className="space-y-4">
+         
+          
+          <p className="text-base md:text-lg text-muted-foreground">
+            It implements an end-to-end survival modeling framework that integrates tumor gene expression with clinical predictors to estimate breast cancer survival risk.
+          </p>
+          
+          <p className="text-base md:text-lg text-muted-foreground">
+            Starting from <strong className="text-foreground">60,660 RNA-seq genes</strong> in the TCGA-BRCA cohort, unsupervised variance filtering and univariate Cox screening were applied to reduce dimensionality and isolate survival-associated features. Multiple modeling approaches were then compared, including Cox proportional hazards, L1-regularized Cox, Random Survival Forest, and XGBoost survival models.
+          </p>
+          
+          <p className="text-base md:text-lg text-muted-foreground">
+            Model performance was evaluated using concordance index and log-rank statistics under strict train–test separation. To assess generalization, the gene signature was harmonized across platforms and the models were externally validated in the independent METABRIC cohort without retraining.
+          </p>
+          
+          <p className="text-base md:text-lg text-muted-foreground">
+            The final clinicogenomic framework integrates <strong className="text-foreground">31 genes with age and lymph node status</strong> forming a 33-feature predictor. Both Cox proportional hazards and Random Survival Forest models were deployed as an interactive web-based inference system capable of generating individualized survival curves and time-to-event estimates.
+          </p>
+        </div>
+
+        {/* Credibility Statement */}
+        <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 flex items-start gap-3">
+          <div className="p-2.5 rounded-lg bg-primary/10 shrink-0">
+            <Icon name="Shield" size={20} className="text-primary" />
+          </div>
+          <div>
+            <h3 className="font-bold text-foreground mb-1.5 text-base">Validation Across Independent Cohorts</h3>
+            <p className="text-sm text-muted-foreground">
+              Trained on <strong className="text-foreground">1,094 TCGA-BRCA patients</strong> and independently validated on <strong className="text-foreground">1,903 METABRIC cases</strong> without retraining to ensure cross-cohort generalization.
+            </p>
+          </div>
+        </div>
+
+        {/* Key Achievements */}
+        <div>
+          <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4">
+            Key Achievements
+          </h3>
+          <div className="grid grid-cols-1 gap-4">
+            <div className="bg-primary/5 border border-primary/20 rounded-xl p-5 hover:border-primary/40 transition-all duration-300">
+              <div className="flex items-center gap-4">
+                <div className="text-2xl md:text-3xl font-bold text-primary">1,903</div>
+                <div className="flex-1">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-0.5">Independent patients used for external validation (METABRIC cohort)
+</div>
+                 
+                </div>
+              </div>
+            </div>
+            <div className="bg-accent/5 border border-accent/20 rounded-xl p-5 hover:border-accent/40 transition-all duration-300">
+              <div className="flex items-center gap-4">
+                <div className="text-2xl md:text-3xl font-bold text-accent">33</div>
+                <div className="flex-1">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-0.5">Integrated clinicogenomic features (31 genes + age + lymph node status)</div>
+                  
+                </div>
+              </div>
+            </div>
+            <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-5 hover:border-emerald-500/40 transition-all duration-300">
+              <div className="flex items-center gap-4">
+                <div className="text-2xl md:text-3xl font-bold text-emerald-500">0.641</div>
+                <div className="flex-1">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-0.5">External survival prediction C-index achieved by the deployed model
+</div>
+                  {/* <p className="text-xs text-muted-foreground">Independent METABRIC patients</p> */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      {/* RIGHT SIDE: Compact Flowchart */}
+      <div>
+      
+        
+        <div className="bg-card border border-border rounded-xl p-6">
+            <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
+          <Icon name="GitCommit" size={24} className="text-emerald-500" />
+          Development Pipeline
+        </h3>
+        
+          <div className="space-y-2">
+            {[
+              {
+                title: "TCGA-BRCA RNA-seq Cohort",
+                subtitle: "1,094 patients | 60,660 genes",
+                color: "blue",
+                delay: "0ms"
+              },
+              {
+                title: "Unsupervised Variability Filtering",
+                subtitle: "MAD-based → 10,000 genes",
+                color: "purple",
+                delay: "100ms"
+              },
+              {
+                title: "Univariate Survival Screening",
+                subtitle: "10,000 Cox models → Top 300 genes",
+                color: "pink",
+                delay: "200ms"
+              },
+              {
+                title: "Comparative Survival Modeling",
+                subtitle: "CoxPH | RSF | XGBoost",
+                color: "orange",
+                delay: "300ms"
+              },
+              {
+                title: "Feature Importance & Refinement",
+                subtitle: "RSF permutation → Redundancy removal",
+                color: "amber",
+                delay: "400ms"
+              },
+              {
+                title: "Tumor-Intrinsic Gene Signature",
+                subtitle: "50 refined genes",
+                color: "lime",
+                delay: "500ms"
+              },
+              {
+                title: "Cross-Platform Harmonization",
+                subtitle: "TCGA ↔️ METABRIC → 31 genes",
+                color: "emerald",
+                delay: "600ms"
+              },
+              {
+                title: "Clinicogenomic Integration",
+                subtitle: "31 genes + Age + Lymph Node",
+                color: "teal",
+                delay: "700ms"
+              },
+              {
+                title: "Final Survival Models",
+                subtitle: "Cox (interpretable) | RSF (nonlinear)",
+                color: "cyan",
+                delay: "800ms"
+              },
+              {
+                title: "External Validation",
+                subtitle: "METABRIC (n=1,903) | C-index ≈ 0.63",
+                color: "sky",
+                delay: "900ms"
+              },
+              {
+                title: "Deployed Prediction System",
+                subtitle: "Dual-model inference (Cox + RSF)",
+                color: "green",
+                delay: "1000ms"
+              }
+            ].map((step, index) => (
+              <div key={index}>
+                {/* Step Card */}
+                <div 
+                  className={`bg-${step.color}-500/5 border border-${step.color}-500/20 rounded-lg p-3 hover:border-${step.color}-500/40 transition-all duration-300 animate-fade-in-up`}
+                  style={{ animationDelay: step.delay }}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className={`p-1.5 rounded-md bg-${step.color}-500/10 border border-${step.color}-500/20 shrink-0`}>
+                      <div className={`w-5 h-5 rounded-full bg-${step.color}-500 flex items-center justify-center text-white text-xs font-bold`}>
+                        {index + 1}
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h5 className="font-bold text-foreground text-sm mb-0.5 leading-tight">{step.title}</h5>
+                      <p className="text-xs text-muted-foreground leading-snug">{step.subtitle}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Connector Arrow */}
+                {index < 10 && (
+                  <div className="flex justify-center my-1">
+                    <Icon name="ArrowDown" size={16} className={`pipeline-connector text-${step.color}-500/40`} />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Caption */}
+          <div className="mt-4 pt-4 border-t border-border">
+            {/* <p className="text-xs text-muted-foreground italic text-center">
+              From 60,660 transcriptomic features to a 31-gene clinicogenomic survival model validated across independent cohorts.
+            </p> */}
+            <h4 className="text-xs md:text-2xl font-bold text-foreground mb-6 flex items-center gap-2 text-muted-foreground italic text-center">
+          {/* <Icon name="GitCommit" size={24} className="text-emerald-500" /> */}
+           From 60,660 transcriptomic features to a 31-gene clinicogenomic survival model validated across independent cohorts.
+        </h4>
+          </div>
+             
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
         {/* Section Header */}
         <div className="mb-16 md:mb-20 max-w-4xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-6">
@@ -86,7 +346,7 @@ const Cc = () => {
             <span>Technical Deep Dive</span>
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Dual-Model System for Robust Survival Prediction
+            Dual Survival Modeling Framework
           </h2>
           <p className="text-lg text-muted-foreground">
             Explore the architecture, data provenance, and scope of the OncoRisk system. 

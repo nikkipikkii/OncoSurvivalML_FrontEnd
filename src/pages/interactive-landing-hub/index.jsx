@@ -20,7 +20,7 @@ const InteractiveLandingHub = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-16 lg:pt-20">
+      <main className="pt-5 lg:pt-5">
        {/* <LandingPage /> */}
         <HeroSection />
         <Cc/>

@@ -282,11 +282,12 @@ const HeroSection = () => {
 
               <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight">
                 OncoSurvival
-                <span className="block text-accent mt-2">Clinicogenomic Survival Intelligence</span>
+                <span className="block text-accent ">Clinicogenomic Survival Modeling in Breast Cancer</span>
               </h1>
 
               <p className="text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed">
-                Explore survival analysis, individual risk profiles, and biological drivers across breast cancer cohorts. Integrates clinical, pathological, and molecular data using a dual-model system designed for transparent hazard modeling and cohort-level profiling.
+              This platform predicts breast cancer survival by combining a 31-gene expression profile with patient age and lymph node status. It generates individualized survival curves using two complementary statistical models, Cox proportional hazards and Random Survival Forest, and has been validated across independent patient cohorts.
+
               </p>
 {/* 
               <div className="flex flex-col sm:flex-row gap-4">

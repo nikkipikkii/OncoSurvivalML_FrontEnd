@@ -77,10 +77,10 @@ export default function GeneIntelligence() {
 
       {/* ================= HEADER ================= */}
       <div className="text-center max-w-4xl mx-auto mb-14">
-        <div className="inline-flex items-center gap-2 text-pink-400 text-sm mb-3">
+        {/* <div className="inline-flex items-center gap-2 text-pink-400 text-sm mb-3">
           <BadgeCheck size={14} />
           Peer-Reviewed & Validated
-        </div>
+        </div> */}
 
         <h1 className="text-3xl font-semibold text-slate-300">
           Gene-Level Biological Intelligence

@@ -35,10 +35,10 @@ const ResearchPublications = () => {
           {/* <ModelDemo2 /> */}
 
           {/* Newsletter / Contact Section */}
-          <section className="container mx-auto px-4 lg:px-8 py-8 md:py-12">
+          {/* <section className="container mx-auto px-4 lg:px-8 py-8 md:py-12">
             <NewsletterSection />
             
-          </section>
+          </section> */}
 
         </main>
 
