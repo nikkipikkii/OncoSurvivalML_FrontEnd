@@ -8,12 +8,7 @@ import {
 } from "lucide-react";
 
 const HeroSection = () => {
-  const scrollToModel = () => {
-    const element = document.getElementById('model-contribution');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+  
   return (
     <section className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden">
       
@@ -85,7 +80,7 @@ const HeroSection = () => {
           {/* ================================================================ */}
 
           {/* CTA Buttons */}
-<div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+{/* <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
            
             <Button 
               variant="default" 
@@ -97,7 +92,7 @@ const HeroSection = () => {
               Go to Model Contribution
             </Button>
            
-          </div>
+          </div> */}
           {/* Stats
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 pt-8 md:pt-12">
             
