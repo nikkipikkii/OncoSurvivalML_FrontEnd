@@ -366,7 +366,7 @@ const HeroSection = () => {
                    {renderChart()}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                {/* <div className="grid grid-cols-2 gap-4">
                   <div className="bg-secondary/50 rounded-lg p-4">
                     <div className="text-xs text-muted-foreground mb-1">Accuracy Rate</div>
                     <div className="text-xl md:text-2xl font-bold text-foreground">{currentViz?.accuracy}</div>
@@ -375,7 +375,7 @@ const HeroSection = () => {
                     <div className="text-xs text-muted-foreground mb-1">Data Points</div>
                     <div className="text-xl md:text-2xl font-bold text-foreground">{currentViz?.dataPoints?.toLocaleString()}</div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="flex items-center justify-center space-x-2 mt-6" onClick={(e) => e.stopPropagation()}>
                   {visualizations?.map((_, index) => (
