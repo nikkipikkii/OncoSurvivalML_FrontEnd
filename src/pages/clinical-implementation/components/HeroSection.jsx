@@ -10,9 +10,9 @@ import {
 const HeroSection = () => {
   const scrollToModel = () => {
     const element = document.getElementById('model-contribution');
-    // if (element) {
-    //   element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    // }
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
   return (
     <section className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden">
