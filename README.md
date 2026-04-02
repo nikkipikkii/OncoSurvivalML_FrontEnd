@@ -22,11 +22,13 @@ This is a **practical application of machine learning in healthcare**, not just 
 
 ---
 
-## 📸 Screenshots
+<img width="1876" height="1015" alt="image" src="https://github.com/user-attachments/assets/3b157b08-f93a-4207-a92a-d5a678417117" />
 
-<img src="assets/homepage.png" width="700"/>
-<br/><br/>
-<img src="assets/prediction.png" width="700"/>
+<img width="1853" height="956" alt="image" src="https://github.com/user-attachments/assets/50b1deac-7fa5-434c-994d-59a9e58acabf" />
+
+<img width="1555" height="824" alt="image" src="https://github.com/user-attachments/assets/86651773-35df-4746-87ba-7616eea00de2" />
+
+<img width="1509" height="1013" alt="image" src="https://github.com/user-attachments/assets/37f2e96f-8825-4d3a-8322-b516e0040df1" />
 
 ---
 
