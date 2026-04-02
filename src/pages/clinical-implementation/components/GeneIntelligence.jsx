@@ -106,7 +106,7 @@ export default function GeneIntelligence() {
       <div className="max-w-6xl mx-auto grid grid-cols-1 xl:grid-cols-9 gap-8">
 
         {/* ============ LEFT : TABLE ============ */}
-        <div className="xl:col-span-7 bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div id="model-contribution" className="xl:col-span-7 bg-slate-900 border border-slate-800 rounded-xl p-6">
           <h3 className="text-pink-400 font-medium mb-4 text-center">
             Top Genes by Cox Model Contribution
           </h3>
