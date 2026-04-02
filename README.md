@@ -1,100 +1,85 @@
-  # React
+# 🧬 OncoSurvivalML
 
-  A modern React-based project utilizing the latest frontend technologies and tools for building responsive web applications.
+A machine learning-powered web application that predicts cancer patient survival probability based on clinical input data.
 
-  ## 🚀 Features
+This project connects **biomedical understanding with data-driven prediction**, turning patient features into actionable survival insights through an interactive interface.
 
-  - **React 18** - React version with improved rendering and concurrent features
-  - **Vite** - Lightning-fast build tool and development server
-  - **Redux Toolkit** - State management with simplified Redux setup
-  - **TailwindCSS** - Utility-first CSS framework with extensive customization
-  - **React Router v6** - Declarative routing for React applications
-  - **Data Visualization** - Integrated D3.js and Recharts for powerful data visualization
-  - **Form Management** - React Hook Form for efficient form handling
-  - **Animation** - Framer Motion for smooth UI animations
-  - **Testing** - Jest and React Testing Library setup
+---
 
-  ## 📋 Prerequisites
+## 🔗 Live Demo
 
-  - Node.js (v14.x or higher)
-  - npm or yarn
+👉 https://onco-survival-ml-front-end.vercel.app/
 
-  ## 🛠️ Installation
+---
 
-  1. Install dependencies:
-    ```bash
-    npm install
-    # or
-    yarn install
-    ```
-    
-  2. Start the development server:
-    ```bash
-    npm start
-    # or
-    yarn start
-    ```
+## 🧠 What This Project Does
 
-  ## 📁 Project Structure
+* Takes patient clinical inputs
+* Processes them through a trained ML model
+* Returns a predicted survival probability in real-time
 
-  ```
-  react_app/
-  ├── public/             # Static assets
-  ├── src/
-  │   ├── components/     # Reusable UI components
-  │   ├── pages/          # Page components
-  │   ├── styles/         # Global styles and Tailwind configuration
-  │   ├── App.jsx         # Main application component
-  │   ├── Routes.jsx      # Application routes
-  │   └── index.jsx       # Application entry point
-  ├── .env                # Environment variables
-  ├── index.html          # HTML template
-  ├── package.json        # Project dependencies and scripts
-  ├── tailwind.config.js  # Tailwind CSS configuration
-  └── vite.config.js      # Vite configuration
-  ```
+This is a **practical application of machine learning in healthcare**, not just a frontend interface.
 
-  ## 🧩 Adding Routes
+---
 
-  To add new routes to the application, update the `Routes.jsx` file:
+## 📸 Screenshots
 
-  ```jsx
-  import { useRoutes } from "react-router-dom";
-  import HomePage from "pages/HomePage";
-  import AboutPage from "pages/AboutPage";
+<img src="assets/homepage.png" width="700"/>
+<br/><br/>
+<img src="assets/prediction.png" width="700"/>
 
-  const ProjectRoutes = () => {
-    let element = useRoutes([
-      { path: "/", element: <HomePage /> },
-      { path: "/about", element: <AboutPage /> },
-      // Add more routes as needed
-    ]);
+---
 
-    return element;
-  };
-  ```
+## ⚙️ Tech Stack
 
-  ## 🎨 Styling
+* **Frontend:** React, Vite, Tailwind CSS
+* **Backend API:** Python
+* **Machine Learning:** Scikit-learn
+* **Deployment:** Vercel
 
-  This project uses Tailwind CSS for styling. The configuration includes:
+---
 
-  - Forms plugin for form styling
-  - Typography plugin for text styling
-  - Aspect ratio plugin for responsive elements
-  - Container queries for component-specific responsive design
-  - Fluid typography for responsive text
-  - Animation utilities
+## 🚀 Key Features
 
-  ## 📱 Responsive Design
+* Interactive UI for clinical data input
+* Real-time prediction using ML model
+* Clean, responsive design
+* Integrated frontend–backend communication
 
-  The app is built with responsive design using Tailwind CSS breakpoints.
+---
 
+## ⚠️ Performance Note
 
-  ## 📦 Deployment
+The application may take a few seconds to load initially due to backend cold start (free hosting). After the first request, performance becomes stable.
 
-  Build the application for production:
+---
 
-  ```bash
-  npm run build
-  ```
+## 🛠️ Run Locally
 
+```bash
+git clone https://github.com/yourusername/OncoSurvivalML_FrontEnd
+cd OncoSurvivalML_FrontEnd
+npm install
+npm run dev
+```
+
+---
+
+## 🧭 Project Context
+
+This project reflects a transition from **biotechnology → data science**, focusing on applying machine learning to real-world healthcare problems.
+
+---
+
+## 📌 Future Improvements
+
+* Improve model accuracy and robustness
+* Reduce backend latency
+* Expand clinical feature set
+* Full production-level deployment
+
+---
+
+## 👤 Author
+
+Built with a focus on combining **biological systems + data intelligence** to create meaningful, real-world applications.
