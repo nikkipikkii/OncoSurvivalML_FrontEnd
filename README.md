@@ -121,6 +121,6 @@ Accordingly, the model is positioned as a research framework for understanding s
 This project demonstrates that survival heterogeneity in breast cancer is best understood as an interaction-dependent, system-level phenomenon. Linear models provide partial explanation, but the full structure emerges only when biological coordination and nonlinear relationships are taken into account.
 The objective of this work is not only to improve prediction, but to clarify the structure of survival itself.
 
-#Full Mathematical Derivation
+# Full Mathematical Derivation
 
 See:  → Mathematical Deep Dive: Survival Modeling (notebook link)
