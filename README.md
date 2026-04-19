@@ -1,5 +1,7 @@
 #OncoSurvival
+
 ##Clinicogenomic Survival Modeling in Breast Cancer
+
 OncoSurvival is a clinicogenomic survival modeling system built to study why breast cancer outcomes vary so widely even among patients with similar clinical staging. It combines high-dimensional gene expression profiles with established clinical predictors and evaluates both classical statistical and nonlinear machine learning frameworks for survival analysis.
 The system is constructed using the TCGA-BRCA cohort for model development and the METABRIC cohort for external validation, enabling assessment of both predictive performance and cross-cohort generalization. The final model is a structured attempt to understand survival as a biological and statistical problem at the same time.
 
