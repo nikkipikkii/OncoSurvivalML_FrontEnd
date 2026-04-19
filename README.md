@@ -20,6 +20,43 @@ to construct a survival modeling framework that integrates biological signal wit
 
 The pipeline begins with 60,660 genes in TCGA-BRCA and a clean survival endpoint, then filters the data through quality control, variance filtering, univariate Cox screening, and multivariate modeling. The first discovery space is reduced to 300 survival-associated genes, then refined to a 50-gene tumor-intrinsic signature. That signature is tested with Cox, Random Survival Forest, and XGBoost, then harmonized across platforms and reduced again to 31 overlapping genes for METABRIC external validation under a strictly controlled training and validation protocol. Finally, age and lymph node status are added, producing a 33-feature clinicogenomic model. The strongest external result comes from the integrated RSF model, which reaches a METABRIC C-index of 0.641 and strong internal index of  ≈ 0.79.
 
+## System Architecture
+
+**Pipeline**
+
+**1. Raw Data**
+
+* TCGA-BRCA (RNA-seq + clinical)
+* METABRIC (external validation)
+
+**2. Preprocessing**
+
+* 60,660 genes → variance filtering → 10,000 genes
+* Standardization (z-score)
+
+**3. Survival Signal Extraction**
+
+* Univariate Cox screening → 300 genes
+
+**4. Modeling Hierarchy**
+
+* Elastic Net Cox
+* Random Survival Forest
+* XGBoost Survival
+
+**5. Biological Refinement**
+
+* 300 → 100 → 64 → 50 gene signature
+
+**6. External Validation**
+
+* Cross-platform validation (31 shared genes)
+
+**7. Clinical Integration**
+
+* Final model: 31 genes + clinical variables
+
+
 # Mathematical Foundations
 
 The system is formulated as a time-to-event problem under right censoring. For each patient i, we observe a feature vector Xi, survival time Ti, and event indicator <img width="21" height="25" alt="image" src="https://github.com/user-attachments/assets/8c476b40-6777-4642-b5f7-2cea93ad115e" />
@@ -83,3 +120,7 @@ Accordingly, the model is positioned as a research framework for understanding s
 
 This project demonstrates that survival heterogeneity in breast cancer is best understood as an interaction-dependent, system-level phenomenon. Linear models provide partial explanation, but the full structure emerges only when biological coordination and nonlinear relationships are taken into account.
 The objective of this work is not only to improve prediction, but to clarify the structure of survival itself.
+
+#Full Mathematical Derivation
+
+See:  → Mathematical Deep Dive: Survival Modeling (notebook link)
