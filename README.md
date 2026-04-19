@@ -11,6 +11,10 @@ At the same time, purely data-driven machine learning approaches often sacrifice
 This project is built around a central objective:
 to construct a survival modeling framework that integrates biological signal with clinical structure while preserving interpretability and maintaining methodological rigor.That is why the workflow moves from high-dimensional screening to biologically refined signatures, and then to cross-platform validation and clinical integration.
 
+## Datasets
+1. TCGA-BRCA (internal cohort): RNA-seq–based breast cancer dataset comprising ~1,000 patients with matched clinical data, used for model development and internal evaluation (best internal C-index ≈ 0.79).
+
+2. METABRIC (external cohort): Microarray-based breast cancer dataset comprising ~2,000 patients, used for independent external validation (best external C-index ≈ 0.64).
 
 ## Model Overview
 
