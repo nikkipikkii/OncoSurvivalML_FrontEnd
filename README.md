@@ -1,87 +1,80 @@
-# 🧬 OncoSurvivalML
+OncoSurvival
+Clinicogenomic Survival Modeling in Breast Cancer
+OncoSurvival is a clinicogenomic survival modeling system built to study why breast cancer outcomes vary so widely even among patients with similar clinical staging. It combines high-dimensional gene expression profiles with established clinical predictors and evaluates both classical statistical and nonlinear machine learning frameworks for survival analysis.
+The system is constructed using the TCGA-BRCA cohort for model development and the METABRIC cohort for external validation, enabling assessment of both predictive performance and cross-cohort generalization. The final model is a structured attempt to understand survival as a biological and statistical problem at the same time.
 
-A machine learning-powered web application that predicts cancer patient survival probability based on clinical input data.
+Motivation and Problem Framing
 
-This project connects **biomedical understanding with data-driven prediction**, turning patient features into actionable survival insights through an interactive interface.
+Survival outcomes in breast cancer vary substantially even among patients with similar clinical staging. While clinical variables such as age at diagnosis and lymph node involvement provide baseline prognostic information, they fail to capture the underlying biological heterogeneity reflected in tumor gene expression.
+At the same time, purely data-driven machine learning approaches often sacrifice interpretability for predictive performance, limiting their clinical relevance.
+This project is built around a central objective:
+to construct a survival modeling framework that integrates biological signal with clinical structure while preserving interpretability and maintaining methodological rigor.That is why the workflow moves from high-dimensional screening to biologically refined signatures, and then to cross-platform validation and clinical integration.
 
----
 
-## 🔗 Live Demo
+Model Overview
 
-👉 https://onco-survival-ml-front-end.vercel.app/
+The pipeline begins with 60,660 genes in TCGA-BRCA and a clean survival endpoint, then filters the data through quality control, variance filtering, univariate Cox screening, and multivariate modeling. The first discovery space is reduced to 300 survival-associated genes, then refined to a 50-gene tumor-intrinsic signature. That signature is tested with Cox, Random Survival Forest, and XGBoost, then harmonized across platforms and reduced again to 31 overlapping genes for METABRIC external validation under a strictly controlled training and validation protocol. Finally, age and lymph node status are added, producing a 33-feature clinicogenomic model. The strongest external result comes from the integrated RSF model, which reaches a METABRIC C-index of 0.641 and strong internal index of  ≈ 0.79.
 
----
+Mathematical Foundations
 
-## 🧠 What This Project Does
+The system is formulated as a time-to-event problem under right censoring. For each patient i, we observe a feature vector Xi, survival time Ti, and event indicator <img width="21" height="25" alt="image" src="https://github.com/user-attachments/assets/8c476b40-6777-4642-b5f7-2cea93ad115e" />
+ The objective is to estimate the conditional survival function
+<img width="249" height="43" alt="image" src="https://github.com/user-attachments/assets/d626198a-f9d9-4096-b28b-299a10be039b" /> and the associated hazard function, which describes how risk evolves over time.
 
-* Takes patient clinical inputs
-* Processes them through a trained ML model
-* Returns a predicted survival probability in real-time
+A classical baseline is given by the Cox proportional hazards model
+<img width="213" height="34" alt="image" src="https://github.com/user-attachments/assets/18f53837-fdea-4860-a2ea-c6688b14cecf" />
+where <img width="39" height="25" alt="image" src="https://github.com/user-attachments/assets/3dceda3a-6055-4a46-baff-a16c4740f9e5" /> is an unspecified baseline hazard and <img width="75" height="26" alt="image" src="https://github.com/user-attachments/assets/e79d2294-e55a-480e-83f1-f9f937b997d5" /> represents relative risk. Parameters are estimated using the partial likelihood
+<img width="275" height="59" alt="image" src="https://github.com/user-attachments/assets/4233f745-4ace-4b19-9c72-29f9ab32758a" /> which depends only on risk sets <img width="43" height="28" alt="image" src="https://github.com/user-attachments/assets/9dfc94bd-de70-42f9-a85c-63ab3a1021bd" />
+and reduces the problem to correctly ordering individuals by risk. 
+Model performance is evaluated using the concordance index
+<img width="286" height="39" alt="image" src="https://github.com/user-attachments/assets/eeb4e3f1-bb78-42c4-8755-aca25e6e50e2" />
+which measures the probability that predicted risk scores preserve the correct ordering of survival times. This makes evaluation consistent with the ranking objective implicit in the Cox formulation.
+The Cox model assumes proportional hazards and linear additive effects. These assumptions are restrictive in high-dimensional transcriptomic settings, where survival is influenced by interacting biological processes. To capture this structure, the system incorporates Random Survival Forests, which partition the feature space and estimate survival within nodes using log-rank based splitting, allowing nonlinear interactions and heterogeneous risk patterns to emerge.
+Feature reduction is guided by survival-aware filtering rather than arbitrary selection. Variance filtering removes near-constant features, and univariate Cox screening selects features with statistically significant association to survival through hazard ratios and Wald tests. This ensures that dimensionality reduction preserves survival-relevant signal before nonlinear modeling is applied.
+The observed results reflect these assumptions. Linear models perform well when structure is approximately additive, while nonlinear ensemble methods show stronger generalization under distribution shift, indicating that survival risk in this setting is interaction-dependent.
 
-This is a **practical application of machine learning in healthcare**, not just a frontend interface.
+Modeling Insights
 
----
+A consistent modeling hierarchy emerges across both the 300-gene and refined 50-gene feature spaces:
 
-<img width="1876" height="1015" alt="image" src="https://github.com/user-attachments/assets/3b157b08-f93a-4207-a92a-d5a678417117" />
+sparse linear < additive linear < nonlinear ensemble
 
-<img width="1853" height="956" alt="image" src="https://github.com/user-attachments/assets/50b1deac-7fa5-434c-994d-59a9e58acabf" />
+Sparse linear models fail to generalize, indicating that survival signal cannot be reduced to a small set of independent predictors. Additive Cox models recover partial structure, achieving strong internal performance (TCGA C-index ≈ 0.79) but attenuating under external validation (METABRIC C-index ≈ 0.63), suggesting that linear effects alone are insufficient under cohort shift. Nonlinear ensemble models, particularly Random Survival Forests, show greater stability, with slightly lower internal performance (TCGA C-index ≈ 0.74) but improved external concordance (METABRIC C-index ≈ 0.64).
 
-<img width="1555" height="824" alt="image" src="https://github.com/user-attachments/assets/86651773-35df-4746-87ba-7616eea00de2" />
+This pattern indicates that survival risk is neither sparse nor purely additive, but interaction-dependent. In the 300-gene space, elastic net Cox performs weakly relative to ensemble methods, and in the refined 50-gene space the same structure persists, with RSF achieving the strongest discrimination (C-index ≈ 0.72). The refined gene set converges on a coherent survival architecture linking immune microenvironment variation with tumor-intrinsic structural programs, reinforcing that survival is governed by coordinated biological systems rather than isolated predictors.
 
-<img width="1509" height="1013" alt="image" src="https://github.com/user-attachments/assets/37f2e96f-8825-4d3a-8322-b516e0040df1" />
+Model Assumptions and Structural Implications
 
----
+The Cox proportional hazards model assumes that covariate effects are linear and additive in the log-risk space, with proportional hazards over time. In high-dimensional transcriptomic settings, these assumptions are restrictive. Biological processes are not independent; they are organized into interacting pathways and regulatory networks. As a result, survival risk is not driven by isolated gene effects, but by coordinated activity across multiple systems, introducing nonlinear dependencies that cannot be captured within a purely linear framework.
 
-## ⚙️ Tech Stack
+To address this, the system incorporates Random Survival Forests, which extend decision tree ensembles to censored survival data. RSF models recursively partition the feature space and estimate survival within nodes, aggregating predictions across trees. This allows the model to capture nonlinear relationships, interaction effects across gene expression profiles, and heterogeneous risk patterns across subpopulations, without imposing proportional hazards or linearity constraints.
 
-* **Frontend:** React, Vite, Tailwind CSS
-* **Backend API:** Python
-* **Machine Learning:** Scikit-learn
-* **Deployment:** Vercel
+The empirical results reflect these structural differences. Linear Cox models achieve strong performance within the training distribution, where additive structure is partially aligned with the data. However, performance degrades under external validation, where deviations from proportional hazards and linearity become more pronounced. In contrast, Random Survival Forests demonstrate greater stability across cohorts, indicating that the underlying survival signal is interaction-dependent.
 
----
+Taken together, the agreement between model assumptions, empirical behavior, and biological interpretation supports a consistent conclusion: survival in this setting is governed by coordinated, system-level processes rather than independent predictors.
 
-## 🚀 Key Features
+Biological Interpretation
 
-* Interactive UI for clinical data input
-* Real-time prediction using ML model
-* Clean, responsive design
-* Integrated frontend–backend communication
+Feature refinement and enrichment analysis reveal that survival-associated transcriptomic structure is not random but organized into coherent biological programs.
 
----
+Two complementary components emerge:
 
-## ⚠️ Performance Note
+Immune microenvironment signal, reflecting variability in immune infiltration and adaptive response
+Tumor-intrinsic structural programs, involving extracellular matrix remodeling, cytoskeletal organization, developmental signaling, and membrane dynamics
 
-The application may take a few seconds to load initially due to backend cold start (free hosting). After the first request, performance becomes stable.
+These findings indicate that survival risk is encoded at the level of coordinated biological systems rather than isolated gene effects. The improved performance of nonlinear models aligns with this observation, as such models are better suited to capture interaction-dependent processes.
 
----
+External Validation and Generalization
 
-## 🛠️ Run Locally
+When evaluated on the METABRIC cohort, all models exhibit expected attenuation in concordance due to platform and cohort differences. However, survival stratification remains statistically significant across models, indicating that the underlying survival structure generalizes beyond the discovery dataset.
+Integration of clinical variables improves external performance across all modeling frameworks, with the clinicogenomic Random Survival Forest achieving the highest external concordance.
+This pattern reflects a balance between biological signal and clinical stability, with linear models demonstrating robustness and nonlinear models capturing richer internal structure.
 
-```bash
-git clone https://github.com/yourusername/OncoSurvivalML_FrontEnd
-cd OncoSurvivalML_FrontEnd
-npm install
-npm run dev
-```
+Limitations
 
----
+The system is subject to several limitations, including cross-platform variability between RNA-seq and microarray data, cohort-specific differences, and attenuation of nonlinear model performance under external validation.
+Accordingly, the model is positioned as a research framework for understanding survival architecture rather than a directly deployable clinical tool.
 
-## 🧭 Project Context
 
-This project reflects a transition from **biotechnology → data science**, focusing on applying machine learning to real-world healthcare problems.
-
----
-
-## 📌 Future Improvements
-
-* Improve model accuracy and robustness
-* Reduce backend latency
-* Expand clinical feature set
-* Full production-level deployment
-
----
-
-## 👤 Author
-
-Built with a focus on combining **biological systems + data intelligence** to create meaningful, real-world applications.
+This project demonstrates that survival heterogeneity in breast cancer is best understood as an interaction-dependent, system-level phenomenon. Linear models provide partial explanation, but the full structure emerges only when biological coordination and nonlinear relationships are taken into account.
+The objective of this work is not only to improve prediction, but to clarify the structure of survival itself.
