@@ -123,4 +123,4 @@ The objective of this work is not only to improve prediction, but to clarify the
 
 # Full Mathematical Derivation
 
-See:  → Mathematical Deep Dive: Survival Modeling (notebook link)
+See:  → Mathematical Deep Dive: Survival Modeling ( )
