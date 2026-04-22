@@ -1,4 +1,4 @@
-# Technical Deep Dive: Integrated Clinicogenomic Survival Modeling
+# Mathematical Deep Dive: Integrated Clinicogenomic Survival Modeling
 ## 1. Survival Modeling under Right-Censoring
 
 In clinical genomics, the prediction of patient outcomes is often complicated by right-censoring, where the event of interest (e.g., mortality) is not observed within the study period.
