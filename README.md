@@ -123,4 +123,4 @@ The objective of this work is not only to improve prediction, but to clarify the
 
 # Full Mathematical Derivation
 
-See:  → Mathematical Deep Dive: Survival Modeling ( )
+See:  → Mathematical Deep Dive: Survival Modeling (https://github.com/nikkipikkii/OncoSurvivalML_FrontEnd/blob/main/Mathematical%20Deep%20Dive%3A%20Integrated%20Clinicogenomic%20Survival%20Modeling.md )
