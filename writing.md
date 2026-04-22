@@ -31,9 +31,7 @@ This allows nonlinear interactions and heterogeneous survival structure to be ca
 
 ## 4. Evaluation
 
-Model performance was evaluated using Harrell’s Concordance Index:
-
-![Uploading image.png…]()
+Model performance was evaluated using Harrell’s Concordance Index: <img width="270" height="51" alt="image" src="https://github.com/user-attachments/assets/caca9f03-fcf6-4db4-b8f3-6fdd59928d35" />
 which measures agreement between predicted risk scores and observed survival ordering.
 
 ## 5. Final Model Performance
